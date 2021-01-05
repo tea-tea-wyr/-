@@ -1,7 +1,13 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">若依后台管理系统</h3>
+
+      <div class="box-content">
+        <img src="../assets/images/logo.png" class="content">
+      </div>
+
+      <h3 class="title">校园活动后台管理系统</h3>
+
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -22,8 +28,8 @@
         <el-input
           v-model="loginForm.code"
           auto-complete="off"
-          placeholder="验证码"
-          style="width: 63%"
+          placeholder="请输入验证码"
+          style="width: 66%"
           @keyup.enter.native="handleLogin"
         >
           <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
@@ -48,7 +54,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2020 ruoyi.vip All Rights Reserved.</span>
+      <span>Copyright © 2020-2021 zm-wyr All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -66,7 +72,7 @@ export default {
       cookiePassword: "",
       loginForm: {
         username: "admin",
-        password: "admin123",
+        password: "111",
         rememberMe: false,
         code: "",
         uuid: ""
@@ -145,18 +151,19 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
   background-image: url("../assets/images/login-background.jpg");
   background-size: cover;
 }
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
-  color: #707070;
+  color: #000000;
 }
 
 .login-form {
   border-radius: 6px;
-  background: #ffffff;
+  background: rgba(216, 216, 216, 0.76);
   width: 400px;
   padding: 25px 25px 5px 25px;
   .el-input {
@@ -192,12 +199,31 @@ export default {
   bottom: 0;
   width: 100%;
   text-align: center;
-  color: #fff;
+  color: #000000;
   font-family: Arial;
   font-size: 12px;
   letter-spacing: 1px;
 }
 .login-code-img {
   height: 38px;
+  color: #000000;
+  margin-left: 16px;
 }
+
+
+
+
+/*--主要的--*/
+.box-content{
+  margin: 0px 0px 25px 125px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.content{
+  display: inline-block;
+  vertical-align: middle;
+  height:80px;
+
+}
+
 </style>

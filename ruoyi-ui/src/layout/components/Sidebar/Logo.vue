@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '若依管理系统',
+      title: '校园活动管理系统',
       logo: logoImg
     }
   }
