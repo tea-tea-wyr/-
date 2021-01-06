@@ -1,0 +1,93 @@
+package com.ruoyi.system.service.impl;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.ruoyi.system.mapper.AysActMapper;
+import com.ruoyi.system.domain.AysAct;
+import com.ruoyi.system.service.IAysActService;
+
+/**
+ * 活动Service业务层处理
+ * 
+ * @author ruoyi
+ * @date 2021-01-06
+ */
+@Service
+public class AysActServiceImpl implements IAysActService 
+{
+    @Autowired
+    private AysActMapper aysActMapper;
+
+    /**
+     * 查询活动
+     * 
+     * @param aid 活动ID
+     * @return 活动
+     */
+    @Override
+    public AysAct selectAysActById(Long aid)
+    {
+        return aysActMapper.selectAysActById(aid);
+    }
+
+    /**
+     * 查询活动列表
+     * 
+     * @param aysAct 活动
+     * @return 活动
+     */
+    @Override
+    public List<AysAct> selectAysActList(AysAct aysAct)
+    {
+        return aysActMapper.selectAysActList(aysAct);
+    }
+
+    /**
+     * 新增活动
+     * 
+     * @param aysAct 活动
+     * @return 结果
+     */
+    @Override
+    public int insertAysAct(AysAct aysAct)
+    {
+        return aysActMapper.insertAysAct(aysAct);
+    }
+
+    /**
+     * 修改活动
+     * 
+     * @param aysAct 活动
+     * @return 结果
+     */
+    @Override
+    public int updateAysAct(AysAct aysAct)
+    {
+        return aysActMapper.updateAysAct(aysAct);
+    }
+
+    /**
+     * 批量删除活动
+     * 
+     * @param aids 需要删除的活动ID
+     * @return 结果
+     */
+    @Override
+    public int deleteAysActByIds(Long[] aids)
+    {
+        return aysActMapper.deleteAysActByIds(aids);
+    }
+
+    /**
+     * 删除活动信息
+     * 
+     * @param aid 活动ID
+     * @return 结果
+     */
+    @Override
+    public int deleteAysActById(Long aid)
+    {
+        return aysActMapper.deleteAysActById(aid);
+    }
+}
