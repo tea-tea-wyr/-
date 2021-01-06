@@ -35,15 +35,26 @@ public class AysAct extends BaseEntity
     @Excel(name = "标签类型")
     private String atype;
 
-    /** 开始时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "开始时间", width = 30, dateFormat = "yyyy-MM-dd")
+
+    /** 开始日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "开始日期", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date astart;
 
-    /** 结束时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
+    /** 结束日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "结束日期", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date aend;
+//
+//    /** 开始时间 */
+//    @JsonFormat(pattern = "HH:mm:ss")
+//    @Excel(name = "开始时间", width = 30, dateFormat = "HH:mm:ss")
+//    private Date astahour;
+//
+//    /** 结束时间 */
+//    @JsonFormat(pattern = "HH:mm:ss")
+//    @Excel(name = "结束时间", width = 30, dateFormat = "HH:mm:ss")
+//    private Date aendhour;
 
     /** 地点 */
     @Excel(name = "地点")
@@ -60,6 +71,10 @@ public class AysAct extends BaseEntity
     /** 分数类型 */
     @Excel(name = "分数类型")
     private String agradetype;
+
+    /** 总时间 */
+    @Excel(name = "总时间")
+    private Integer ahour;
 
     /** 分数 */
     @Excel(name = "分数")
@@ -133,6 +148,21 @@ public class AysAct extends BaseEntity
         this.alocation = alocation;
     }
 
+//
+//    public Date getAstahour()
+//    {
+//        return astahour;
+//    }
+//    public void setAendhour(Date aendhour)
+//    {
+//        this.aendhour = aendhour;
+//    }
+//
+//    public Date getAendhour()
+//    {
+//        return aendhour;
+//    }
+
     public String getAlocation() 
     {
         return alocation;
@@ -169,6 +199,16 @@ public class AysAct extends BaseEntity
         this.agrade = agrade;
     }
 
+    public void setAhour(Integer ahour)
+    {
+        this.ahour = ahour;
+    }
+
+    public Integer getAhour()
+    {
+        return ahour;
+    }
+
     public Integer getAgrade() 
     {
         return agrade;
@@ -184,10 +224,13 @@ public class AysAct extends BaseEntity
             .append("atype", getAtype())
             .append("astart", getAstart())
             .append("aend", getAend())
+//            .append("astahour", getAstahour())
+//            .append("aendhour", getAendhour())
             .append("alocation", getAlocation())
             .append("aobject", getAobject())
             .append("anum", getAnum())
             .append("agradetype", getAgradetype())
+            .append("ahour", getAhour())
             .append("agrade", getAgrade())
             .toString();
     }

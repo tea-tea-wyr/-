@@ -12,38 +12,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="atype"    column="atype"    />
         <result property="astart"    column="astart"    />
         <result property="aend"    column="aend"    />
+        <result property="astahour"    column="astahour"    />
+        <result property="aendhour"    column="aendhour"    />
         <result property="alocation"    column="alocation"    />
         <result property="aobject"    column="aobject"    />
         <result property="anum"    column="anum"    />
         <result property="agradetype"    column="agradetype"    />
+        <result property="ahour"    column="ahour"    />
         <result property="agrade"    column="agrade"    />
     </resultMap>
 
     <sql id="selectAysActVo">
-        select aid, oid, aname, asubject, atype, astart, aend, alocation, aobject, anum, agradetype, agrade from ays_act
+        select aid, oid, aname, asubject, atype, astart, aend, astahour, aendhour, alocation, aobject, anum, agradetype, ahour, agrade from ays_act
     </sql>
 
     <select id="selectAysActList" parameterType="AysAct" resultMap="AysActResult">
         <include refid="selectAysActVo"/>
-        <where>  
+        <where>
             <if test="aname != null  and aname != ''"> and aname like concat('%', #{aname}, '%')</if>
             <if test="asubject != null  and asubject != ''"> and asubject = #{asubject}</if>
             <if test="atype != null  and atype != ''"> and atype = #{atype}</if>
             <if test="astart != null "> and astart = #{astart}</if>
             <if test="aend != null "> and aend = #{aend}</if>
+            <if test="astahour != null "> and astahour = #{astahour}</if>
+            <if test="aendhour != null "> and aendhour = #{aendhour}</if>
             <if test="alocation != null  and alocation != ''"> and alocation = #{alocation}</if>
             <if test="aobject != null  and aobject != ''"> and aobject = #{aobject}</if>
             <if test="anum != null "> and anum = #{anum}</if>
             <if test="agradetype != null  and agradetype != ''"> and agradetype = #{agradetype}</if>
+            <if test="ahour != null "> and ahour = #{ahour}</if>
             <if test="agrade != null "> and agrade = #{agrade}</if>
         </where>
     </select>
-    
+
     <select id="selectAysActById" parameterType="Long" resultMap="AysActResult">
         <include refid="selectAysActVo"/>
         where aid = #{aid}
     </select>
-        
+
     <insert id="insertAysAct" parameterType="AysAct" useGeneratedKeys="true" keyProperty="aid">
         insert into ays_act
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -53,12 +59,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="atype != null and atype != ''">atype,</if>
             <if test="astart != null">astart,</if>
             <if test="aend != null">aend,</if>
+            <if test="astahour != null">astahour,</if>
+            <if test="aendhour != null">aendhour,</if>
             <if test="alocation != null and alocation != ''">alocation,</if>
             <if test="aobject != null">aobject,</if>
             <if test="anum != null">anum,</if>
             <if test="agradetype != null">agradetype,</if>
+            <if test="ahour != null">ahour,</if>
             <if test="agrade != null">agrade,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="oid != null">#{oid},</if>
             <if test="aname != null and aname != ''">#{aname},</if>
@@ -66,12 +75,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="atype != null and atype != ''">#{atype},</if>
             <if test="astart != null">#{astart},</if>
             <if test="aend != null">#{aend},</if>
+            <if test="astahour != null">#{astahour},</if>
+            <if test="aendhour != null">#{aendhour},</if>
             <if test="alocation != null and alocation != ''">#{alocation},</if>
             <if test="aobject != null">#{aobject},</if>
             <if test="anum != null">#{anum},</if>
             <if test="agradetype != null">#{agradetype},</if>
+            <if test="ahour != null">#{ahour},</if>
             <if test="agrade != null">#{agrade},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateAysAct" parameterType="AysAct">
@@ -83,10 +95,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="atype != null and atype != ''">atype = #{atype},</if>
             <if test="astart != null">astart = #{astart},</if>
             <if test="aend != null">aend = #{aend},</if>
+            <if test="astahour != null">astahour = #{astahour},</if>
+            <if test="aendhour != null">aendhour = #{aendhour},</if>
             <if test="alocation != null and alocation != ''">alocation = #{alocation},</if>
             <if test="aobject != null">aobject = #{aobject},</if>
             <if test="anum != null">anum = #{anum},</if>
             <if test="agradetype != null">agradetype = #{agradetype},</if>
+            <if test="ahour != null">ahour = #{ahour},</if>
             <if test="agrade != null">agrade = #{agrade},</if>
         </trim>
         where aid = #{aid}
@@ -97,10 +112,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteAysActByIds" parameterType="String">
-        delete from ays_act where aid in 
+        delete from ays_act where aid in
         <foreach item="aid" collection="array" open="(" separator="," close=")">
             #{aid}
         </foreach>
     </delete>
-    
+
 </mapper>
