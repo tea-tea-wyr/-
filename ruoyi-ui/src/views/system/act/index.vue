@@ -20,42 +20,48 @@
         />
       </el-form-item>
       <el-form-item label="标签类型" prop="atype">
-        <el-select v-model="queryParams.atype" placeholder="请选择标签类型" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
+        <el-select
+          v-model="queryParams.atype"
+          placeholder="请选择标签类型"
+          clearable
+          size="small">
+          <el-option
+            label="请选择字典生成"
+            value="" />
         </el-select>
       </el-form-item>
-      <el-form-item label="开始日期" prop="astart">
-        <el-date-picker clearable size="small"
-                        v-model="queryParams.astart"
-                        type="daterange"
-                        value-format="yyyy-MM-dd"
-                        placeholder="选择开始日期">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="结束日期" prop="aend">
-        <el-date-picker clearable size="small"
-                        v-model="queryParams.aend"
-                        type="daterange"
-                        value-format="yyyy-MM-dd"
-                        placeholder="选择结束日期">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="开始时间" prop="astahour">
-        <el-date-picker clearable size="small"
-                        v-model="queryParams.astahour"
-                        type="date"
-                        value-format="yy:MM:dd"
-                        placeholder="选择开始时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="结束时间" prop="aendhour">
-        <el-date-picker clearable size="small"
-                        v-model="queryParams.aendhour"
-                        type="date"
-                        value-format="yy:MM:dd"
-                        placeholder="选择结束时间">
-        </el-date-picker>
-      </el-form-item>
+<!--      <el-form-item label="开始日期" prop="astart">-->
+<!--        <el-date-picker clearable size="small"-->
+<!--                        v-model="queryParams.astart"-->
+<!--                        type="daterange"-->
+<!--                        value-format="yyyy-MM-dd"-->
+<!--                        placeholder="选择开始日期">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="结束日期" prop="aend">-->
+<!--        <el-date-picker clearable size="small"-->
+<!--                        v-model="queryParams.aend"-->
+<!--                        type="daterange"-->
+<!--                        value-format="yyyy-MM-dd"-->
+<!--                        placeholder="选择结束日期">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="开始时间" prop="astahour">-->
+<!--        <el-date-picker clearable size="small"-->
+<!--                        v-model="queryParams.astahour"-->
+<!--                        type="date"-->
+<!--                        value-format="yy:MM:dd"-->
+<!--                        placeholder="选择开始时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="结束时间" prop="aendhour">-->
+<!--        <el-date-picker clearable size="small"-->
+<!--                        v-model="queryParams.aendhour"-->
+<!--                        type="date"-->
+<!--                        value-format="yy:MM:dd"-->
+<!--                        placeholder="选择结束时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
       <el-form-item label="地点" prop="alocation">
         <el-input
           v-model="queryParams.alocation"
@@ -74,20 +80,20 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="人数" prop="anum">
-        <el-input
-          v-model="queryParams.anum"
-          placeholder="请输入人数"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="分数类型" prop="agradetype">
-        <el-select v-model="queryParams.agradetype" placeholder="请选择分数类型" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="人数" prop="anum">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.anum"-->
+<!--          placeholder="请输入人数"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="分数类型" prop="agradetype">-->
+<!--        <el-select v-model="queryParams.agradetype" placeholder="请选择分数类型" clearable size="small">-->
+<!--          <el-option label="请选择字典生成" value="" />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item label="总时间" prop="ahour">
         <el-input
           v-model="queryParams.ahour"
@@ -189,20 +195,26 @@
       <el-table-column label="分数" align="center" prop="agrade" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-row :gutter="10" class="mb8">
+            <el-col :offset="1.5">
           <el-button
-            size="mini"
-            type="text"
+            size="small"
+            type="primary"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:act:edit']"
           >修改</el-button>
+            </el-col>
+            <el-col :span="1.5">
           <el-button
-            size="mini"
-            type="text"
+            size="small"
+            type="danger"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:act:remove']"
           >删除</el-button>
+          </el-col>
+          </el-row>
         </template>
       </el-table-column>
     </el-table>

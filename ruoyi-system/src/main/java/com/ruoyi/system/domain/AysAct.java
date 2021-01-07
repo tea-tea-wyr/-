@@ -45,16 +45,16 @@ public class AysAct extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "结束日期", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date aend;
-//
-//    /** 开始时间 */
-//    @JsonFormat(pattern = "HH:mm:ss")
-//    @Excel(name = "开始时间", width = 30, dateFormat = "HH:mm:ss")
-//    private Date astahour;
-//
-//    /** 结束时间 */
-//    @JsonFormat(pattern = "HH:mm:ss")
-//    @Excel(name = "结束时间", width = 30, dateFormat = "HH:mm:ss")
-//    private Date aendhour;
+
+    /** 开始时间 */
+    @JsonFormat(pattern = "HH:mm:ss")
+    @Excel(name = "开始时间", width = 30, dateFormat = "HH:mm:ss")
+    private Date astahour;
+
+    /** 结束时间 */
+    @JsonFormat(pattern = "HH:mm:ss")
+    @Excel(name = "结束时间", width = 30, dateFormat = "HH:mm:ss")
+    private Date aendhour;
 
     /** 地点 */
     @Excel(name = "地点")
@@ -148,20 +148,20 @@ public class AysAct extends BaseEntity
         this.alocation = alocation;
     }
 
-//
-//    public Date getAstahour()
-//    {
-//        return astahour;
-//    }
-//    public void setAendhour(Date aendhour)
-//    {
-//        this.aendhour = aendhour;
-//    }
-//
-//    public Date getAendhour()
-//    {
-//        return aendhour;
-//    }
+
+    public Date getAstahour()
+    {
+        return astahour;
+    }
+    public void setAendhour(Date aendhour)
+    {
+        this.aendhour = aendhour;
+    }
+
+    public Date getAendhour()
+    {
+        return aendhour;
+    }
 
     public String getAlocation() 
     {
@@ -224,8 +224,8 @@ public class AysAct extends BaseEntity
             .append("atype", getAtype())
             .append("astart", getAstart())
             .append("aend", getAend())
-//            .append("astahour", getAstahour())
-//            .append("aendhour", getAendhour())
+            .append("astahour", getAstahour())
+            .append("aendhour", getAendhour())
             .append("alocation", getAlocation())
             .append("aobject", getAobject())
             .append("anum", getAnum())
