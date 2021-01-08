@@ -195,13 +195,18 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="actList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="actList" @selection-change="handleSelectionChange" border="border" >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="活动id" align="center" prop="actId" />
       <el-table-column label="所属组织方id" align="center" prop="orgId" width="180px"/>
       <el-table-column label="名称" align="center" prop="aname" width="180px"/>
       <el-table-column label="主题" align="center" prop="asubject" />
-      <el-table-column label="标签类型" align="center" prop="atype" />
+      <el-table-column label="标签类型" align="center" prop="atype" width="180px">
+        <template slot-scope="scope">
+          <div>{{typeArr[scope.row.atype]}}</div>
+        </template>
+
+      </el-table-column>
       <el-table-column label="开始日期" align="center" prop="astart" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.astart) }}</span>
@@ -225,7 +230,11 @@
       <el-table-column label="地点" align="center" prop="alocation" width="180px"/>
       <el-table-column label="对象" align="center" prop="aobject" width="180px"/>
       <el-table-column label="人数" align="center" prop="anum" />
-      <el-table-column label="分数类型" align="center" prop="agradetype" />
+      <el-table-column label="分数类型" align="center" prop="agradetype">
+      <template slot-scope="scope">
+        <div>{{atypeArr[scope.row.agradetype]}}</div>
+      </template>
+      </el-table-column>
       <el-table-column label="总时间" align="center" prop="ahour" />
       <el-table-column label="分数" align="center" prop="agrade" />
       <el-table-column
@@ -381,7 +390,20 @@
     components: {Treeselect
     },
     data() {
+
       return {
+        typeArr:{
+          0:"党建类",
+          1:"志愿类",
+          2:"学科竞赛类",
+          3:"科技创新类",
+        },
+        atypeArr:{
+          0:"分数",
+          1:"时长",
+        },
+
+
         // 遮罩层
         loading: true,
         // 选中数组
@@ -549,6 +571,7 @@
       handleUpdate(row) {
         this.reset();
         const actId = row.actId || this.ids
+
         getAct(actId).then(response => {
           this.form = response.data;
           this.open = true;

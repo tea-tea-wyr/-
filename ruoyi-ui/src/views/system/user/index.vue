@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20">
+    <el-row :gutter="20" >
 
       <!--管理员数据-->
       <el-col :span="20" :xs="24">
@@ -110,13 +110,16 @@
           <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
-        <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
+
+        <!--显示管理员数据-->
+        <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange" border="border">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="管理员编号" align="center" prop="userId" />
-          <el-table-column label="管理员名称" align="center" prop="userName" :show-overflow-tooltip="true" />
-          <el-table-column label="管理员昵称" align="center" prop="nickName" :show-overflow-tooltip="true" />
+          <el-table-column label="管理员编号" align="center" prop="userId" width="120" />
+          <el-table-column label="管理员名称" align="center" prop="userName" :show-overflow-tooltip="true" width="120" />
+          <el-table-column label="管理员昵称" align="center" prop="nickName" :show-overflow-tooltip="true" width="120" />
 <!--          <el-table-column label="部门" align="center" prop="dept.deptName" :show-overflow-tooltip="true" />-->
           <el-table-column label="手机号码" align="center" prop="phonenumber" width="120" />
+          <el-table-column label="邮箱" align="center" prop="email" width="180" />
           <el-table-column label="状态" align="center">
             <template slot-scope="scope">
               <el-switch
