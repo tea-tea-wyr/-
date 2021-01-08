@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AysStuMapper">
+
+	<resultMap type="AysStu" id="AysStuResult">
+		<id     property="stuId"       column="stu_id"      />
+		<result property="spwd"    column="spwd"    />
+		<result property="stuName"     column="stu_name"    />
+		<result property="deptId"       column="dept_id"      />
+		<result property="sdegree"    column="sdegree"    />
+		<result property="sacademy"    column="sacademy"    />
+		<result property="sclass"    column="sclass"    />
+		<result property="snum"    column="snum"    />
+		<result property="semail"    column="semail"    />
+		<result property="sgender"    column="sgender"    />
+		<result property="sstatus"    column="sstatus"    />
+		<result property="sjob"    column="sjob"    />
+		<result property="srole"    column="srole"    />
+		<result property="sremark"    column="sremark"    />
+		<result property="loginip"    column="loginip"    />
+		<result property="logintime"    column="logintime"    />
+		<result property="delFlag"    column="del_flag"/>
+		<association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
+		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
+	</resultMap>
+	
+	<resultMap id="deptResult" type="SysDept">
+		<id     property="deptId"   column="dept_id"     />
+		<result property="parentId" column="parent_id"   />
+		<result property="deptName" column="dept_name"   />
+		<result property="orderNum" column="order_num"   />
+		<result property="leader"   column="leader"      />
+		<result property="status"   column="dept_status" />
+	</resultMap>
+	
+	<resultMap id="RoleResult" type="SysRole">
+	<id     property="roleId"       column="role_id"        />
+	<result property="roleName"     column="role_name"      />
+	<result property="roleKey"      column="role_key"       />
+	<result property="roleSort"     column="role_sort"      />
+	<result property="dataScope"     column="data_scope"    />
+	<result property="status"       column="role_status"    />
+</resultMap>
+	
+	<sql id="selectStuVo">
+        select u.stu_id, u.dept_id, u.stu_name, u.spwd, u.sdegree, u.sacademy, u.sclass, u.snum, u.semail, u.sgender, u.sstatus, u.sjob, u.srole, u.sremark, u.loginip, u.logintime,u.del_flag,
+               d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
+        r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
+        from ays_stu u
+		    left join sys_dept d on u.dept_id = d.dept_id
+		    left join sys_user_role ur on u.stu_id = ur.user_id
+		    left join sys_role r on r.role_id = ur.role_id
+    </sql>
+    
+    <select id="selectStuList" parameterType="AysStu" resultMap="AysStuResult">
+		select u.stu_id, u.dept_id, u.stu_name, u.spwd, u.sdegree, u.sacademy, u.sclass, u.snum, u.semail, u.sgender, u.sstatus, u.sjob, u.srole, u.sremark, u.loginip, u.logintime,u.del_flag,
+		d.dept_id, d.dept_name, d.leader from ays_stu u
+		left join sys_dept d on u.dept_id = d.dept_id
+		where u.del_flag = '0'
+		<if test="stuId != null  and stuId != ''"> and stu_id = #{stuId}</if>
+		<if test="spwd != null  and spwd != ''"> and spwd = #{spwd}</if>
+		<if test="stuName != null  and stuName != ''"> and stu_name like concat('%', #{stuName}, '%')</if>
+		<if test="deptId != null and deptId != 0">
+			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+		</if>
+
+		<if test="sdegree != null  and sdegree != ''"> and sdegree = #{sdegree}</if>
+		<if test="sacademy != null  and sacademy != ''"> and sacademy = #{sacademy}</if>
+		<if test="sclass != null  and sclass != ''"> and sclass = #{sclass}</if>
+		<if test="snum != null  and snum != ''"> and snum like concat('%', #{snum}, '%')</if>
+		<if test="semail != null  and semail != ''"> and semail = #{semail}</if>
+		<if test="sgender != null  and sgender != ''"> and sgender = #{sgender}</if>
+		<if test="sstatus != null  and sstatus != ''"> and sstatus = #{sstatus}</if>
+		<if test="sjob != null  and sjob != ''"> and sjob = #{sjob}</if>
+		<if test="srole != null  and srole != ''"> and srole = #{srole}</if>
+		<if test="sremark != null  and sremark != ''"> and sremark = #{sremark}</if>
+
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>
+	
+	<select id="selectStuByStuName" parameterType="String" resultMap="AysStuResult">
+	    <include refid="selectStuVo"/>
+		where u.stu_name = #{stuName}
+	</select>
+	
+	<select id="selectStuById" parameterType="String" resultMap="AysStuResult">
+		<include refid="selectStuVo"/>
+		where u.stu_id = #{stuId}
+	</select>
+	
+	<select id="checkStuNameUnique" parameterType="String" resultType="int">
+		select count(1) from ays_stu where stu_name = #{stuName} limit 1
+	</select>
+	
+	<select id="checkPhoneUnique" parameterType="String" resultMap="AysStuResult">
+		select stu_id, snum from ays_stu where snum = #{snum} limit 1
+	</select>
+	
+	<select id="checkEmailUnique" parameterType="String" resultMap="AysStuResult">
+		select stu_id, semail from ays_stu where semail = #{email} limit 1
+	</select>
+	
+	<insert id="insertStu" parameterType="AysStu" useGeneratedKeys="true" keyProperty="stuId">
+ 		insert into ays_stu(
+ 			<if test="stuId != null and stuId != 0">stu_id,</if>
+ 			<if test="deptId != null and deptId != 0">dept_id,</if>
+ 			<if test="stuName != null and stuName != ''">stu_name,</if>
+		<if test="spwd != null and spwd != ''">spwd,</if>
+		<if test="sdegree != null">sdegree,</if>
+		<if test="sacademy != null and sacademy != ''">sacademy,</if>
+		<if test="sclass != null and sclass != ''">sclass,</if>
+		<if test="snum != null">snum,</if>
+		<if test="semail != null">semail,</if>
+		<if test="sgender != null">sgender,</if>
+		<if test="sstatus != null">sstatus,</if>
+		<if test="sjob != null">sjob,</if>
+		<if test="srole != null">srole,</if>
+		<if test="sremark != null">sremark,</if>
+		<if test="loginip != null">loginip,</if>
+		<if test="logintime != null">logintime,</if>
+
+ 		)values(
+ 			<if test="stuId != null and stuId != ''">#{stuId},</if>
+ 			<if test="deptId != null and deptId != ''">#{deptId},</if>
+ 			<if test="stuName != null and stuName != ''">#{stuName},</if>
+		<if test="spwd != null and spwd != ''">#{spwd},</if>
+		<if test="sdegree != null">#{sdegree},</if>
+		<if test="sacademy != null and sacademy != ''">#{sacademy},</if>
+		<if test="sclass != null and sclass != ''">#{sclass},</if>
+		<if test="snum != null">#{snum},</if>
+		<if test="semail != null">#{semail},</if>
+		<if test="sgender != null">#{sgender},</if>
+		<if test="sstatus != null">#{sstatus},</if>
+		<if test="sjob != null">#{sjob},</if>
+		<if test="srole != null">#{srole},</if>
+		<if test="sremark != null">#{sremark},</if>
+		<if test="loginip != null">#{loginip},</if>
+		<if test="logintime != null">#{logintime},</if>
+ 			sysdate()
+ 		)
+	</insert>
+	
+	<update id="updateStu" parameterType="AysStu">
+ 		update ays_stu
+ 		<set>
+ 			<if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
+ 			<if test="stuName != null and stuName != ''">stu_name = #{stuName},</if>
+			<if test="spwd != null and spwd != ''">spwd = #{spwd},</if>
+			<if test="sdegree != null">sdegree = #{sdegree},</if>
+			<if test="sacademy != null and sacademy != ''">sacademy = #{sacademy},</if>
+			<if test="sclass != null and sclass != ''">sclass = #{sclass},</if>
+			<if test="snum != null">snum = #{snum},</if>
+			<if test="semail != null">semail = #{semail},</if>
+			<if test="sgender != null">sgender = #{sgender},</if>
+			<if test="sstatus != null">sstatus = #{sstatus},</if>
+			<if test="sjob != null">sjob = #{sjob},</if>
+			<if test="srole != null">srole = #{srole},</if>
+			<if test="sremark != null">sremark = #{sremark},</if>
+			<if test="loginip != null">loginip = #{loginip},</if>
+			<if test="logintime != null">logintime = #{logintime},</if>
+ 		</set>
+ 		where stu_id = #{stuId}
+	</update>
+	
+<!--	<update id="updateStuStatus" parameterType="AysStu">-->
+<!-- 		update ays_stu set sstatus = #{sstatus} where stu_id = #{stuId}-->
+<!--	</update>-->
+<!--	-->
+<!--	<update id="updateStuAvatar" parameterType="AysStu">-->
+<!-- 		update ays_stu set savatar = #{avatar} where stu_name = #{stuName}-->
+<!--	</update>-->
+<!--	-->
+<!--	<update id="resetStuPwd" parameterType="AysStu">-->
+<!-- 		update ays_stu set password = #{password} where stu_name = #{stuName}-->
+<!--	</update>-->
+	
+	<delete id="deleteStuById" parameterType="String">
+ 		delete from ays_stu where stu_id = #{stuId}
+ 	</delete>
+ 	
+ 	<delete id="deleteStuByIds" parameterType="String">
+ 		update ays_stu set del_flag = '2' where stu_id in
+ 		<foreach collection="array" item="stuId" open="(" separator="," close=")">
+ 			#{stuId}
+        </foreach> 
+ 	</delete>
+	
+</mapper> 

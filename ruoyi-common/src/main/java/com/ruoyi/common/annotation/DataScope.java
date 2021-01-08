@@ -27,4 +27,6 @@ public @interface DataScope
     public String userAlias() default "";
 
     public String orgAlias() default "";
+
+    public String stuAlias() default "";
 }

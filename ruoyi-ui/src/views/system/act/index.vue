@@ -197,7 +197,7 @@
 
     <el-table v-loading="loading" :data="actList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="活动id" align="center" prop="actId" />
+      <el-table-column label="活动对方是否的id" align="center" prop="actId" />
       <el-table-column label="所属组织方id" align="center" prop="orgId" />
       <el-table-column label="名称" align="center" prop="aname" />
       <el-table-column label="主题" align="center" prop="asubject" />
@@ -272,6 +272,9 @@
         <el-form-item label="主题" prop="asubject">
           <el-input v-model="form.asubject" placeholder="请输入主题" />
         </el-form-item>
+        <el-form-item label="标签" prop="atype">
+          <el-input v-model="form.atype" placeholder="请输入标签" />
+        </el-form-item>
         <el-form-item label="归属部门" prop="orgId">
           <treeselect v-model="form.orgId" :options="orgOptions" :show-count="true" placeholder="请选择归属部门" />
         </el-form-item>
@@ -281,7 +284,7 @@
 <!--            <el-option label="请选择字典生成" value="" />-->
 <!--          </el-select>-->
 <!--        </el-form-item>-->
-        <el-form-item label="标签类型">
+        <!-- <el-form-item label="标签类型">
           <el-select v-model="form.atype" placeholder="请选择标签类型">
             <el-option
               v-for="dict in labelOptions"
@@ -290,12 +293,12 @@
               :value="dict.dictValue"
             ></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="开始日期" prop="astart">
           <el-date-picker clearable size="small"
                           v-model="form.astart"
                           type="date"
-                          value-format="yyyy-MM-dd"
+                          value-format="yyyy-MM-dd hh:mm:ss"
                           placeholder="选择开始日期">
           </el-date-picker>
         </el-form-item>
@@ -303,7 +306,7 @@
           <el-date-picker clearable size="small"
                           v-model="form.aend"
                           type="date"
-                          value-format="yyyy-MM-dd"
+                          value-format="yyyy-MM-dd hh:mm:ss"
                           placeholder="选择结束日期">
           </el-date-picker>
         </el-form-item>

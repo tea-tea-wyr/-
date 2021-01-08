@@ -4,7 +4,7 @@
       <el-form-item label="部门名称" prop="deptName">
         <el-input
           v-model="queryParams.deptName"
-          placeholder="请输入部门名称"
+          placeholder="请输入部门名称是的地方"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
