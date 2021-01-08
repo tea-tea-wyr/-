@@ -1,7 +1,9 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
-import com.ruoyi.system.domain.AysAct;
+
+import com.ruoyi.common.core.domain.entity.AysAct;
+import org.springframework.stereotype.Repository;
 
 /**
  * 活动Mapper接口
@@ -9,8 +11,10 @@ import com.ruoyi.system.domain.AysAct;
  * @author ruoyi
  * @date 2021-01-06
  */
+@Repository
 public interface AysActMapper 
 {
+
     /**
      * 查询活动
      * 

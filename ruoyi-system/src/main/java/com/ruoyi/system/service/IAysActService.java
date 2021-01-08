@@ -1,7 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
-import com.ruoyi.system.domain.AysAct;
+
+import com.ruoyi.common.core.domain.entity.AysAct;
 
 /**
  * 活动Service接口

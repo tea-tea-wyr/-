@@ -5,8 +5,8 @@
       <el-col :span="4" :xs="24">
         <div class="head-container">
           <el-input
-            v-model="deptName"
-            placeholder="请输入部门名称"
+            v-model="orgName"
+            placeholder="请输入组织名称"
             clearable
             size="small"
             prefix-icon="el-icon-search"
@@ -15,7 +15,7 @@
         </div>
         <div class="head-container">
           <el-tree
-            :data="deptOptions"
+            :data="orgOptions"
             :props="defaultProps"
             :expand-on-click-node="false"
             :filter-node-method="filterNode"
@@ -208,9 +208,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
-            </el-form-item>
+            <el-form-item label="归属部门" prop="orgId">
+              <treeselect v-model="form.orgId" :options="orgOptions" :show-count="true" placeholder="请选择归属部门" />
+          </el-form-item>
           </el-col>
         </el-row>
         <el-row>
@@ -340,7 +340,7 @@
 <script>
 import { listUser, getUser, delUser, addUser, updateUser, exportUser, resetUserPwd, changeUserStatus, importTemplate } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
-import { treeselect } from "@/api/system/dept";
+import { treeselect } from "@/api/system/org";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -366,11 +366,11 @@ export default {
       // 弹出层标题
       title: "",
       // 部门树选项
-      deptOptions: undefined,
+      orgOptions: undefined,
       // 是否显示弹出层
       open: false,
       // 部门名称
-      deptName: undefined,
+      orgName: undefined,
       // 默认密码
       initPassword: undefined,
       // 日期范围
@@ -411,7 +411,7 @@ export default {
         userName: undefined,
         phonenumber: undefined,
         status: undefined,
-        deptId: undefined
+        orgId: undefined
       },
       // 表单校验
       rules: {
@@ -443,12 +443,13 @@ export default {
   },
   watch: {
     // 根据名称筛选部门树
-    deptName(val) {
+    orgName(val) {
       this.$refs.tree.filter(val);
     }
   },
   created() {
     this.getList();
+    console.log(this.userList);
     this.getTreeselect();
     this.getDicts("sys_normal_disable").then(response => {
       this.statusOptions = response.data;
@@ -466,6 +467,7 @@ export default {
       this.loading = true;
       listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
           this.userList = response.rows;
+          console.log(this.userList);
           this.total = response.total;
           this.loading = false;
         }
@@ -474,7 +476,7 @@ export default {
     /** 查询部门下拉树结构 */
     getTreeselect() {
       treeselect().then(response => {
-        this.deptOptions = response.data;
+        this.orgOptions = response.data;
       });
     },
     // 筛选节点
@@ -484,7 +486,7 @@ export default {
     },
     // 节点单击事件
     handleNodeClick(data) {
-      this.queryParams.deptId = data.id;
+      this.queryParams.orgId = data.id;
       this.getList();
     },
     // 用户状态修改
@@ -511,7 +513,7 @@ export default {
     reset() {
       this.form = {
         userId: undefined,
-        deptId: undefined,
+        orgId: undefined,
         userName: undefined,
         nickName: undefined,
         password: undefined,

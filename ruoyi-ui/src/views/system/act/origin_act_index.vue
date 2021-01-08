@@ -1,32 +1,5 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20">
-      <!--组织数据-->
-      <el-col :span="4" :xs="24">
-        <div class="head-container">
-          <el-input
-            v-model="orgName"
-            placeholder="请输入组织名称"
-            clearable
-            size="small"
-            prefix-icon="el-icon-search"
-            style="margin-bottom: 20px"
-          />
-        </div>
-        <div class="head-container">
-          <el-tree
-            :data="orgOptions"
-            :props="defaultProps"
-            :expand-on-click-node="false"
-            :filter-node-method="filterNode"
-            ref="tree"
-            default-expand-all
-            @node-click="handleNodeClick"
-          />
-        </div>
-      </el-col>
-      <!--活动数据-->
-      <el-col :span="20" :xs="24">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="名称" prop="aname">
         <el-input
@@ -52,51 +25,51 @@
           placeholder="请选择标签类型"
           clearable
           size="small">
-<!--          <el-option-->
-<!--            label="请选择字典生成"-->
-<!--            value="" />-->
+          <!--          <el-option-->
+          <!--            label="请选择字典生成"-->
+          <!--            value="" />-->
 
           <el-option
-            v-for="dict in labelOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
+            v-for="dict in statusOptions"
+            :key="dict.aname"
+            :label="dict.asubject"
+            :value="dict.atype"
           />
 
         </el-select>
       </el-form-item>
-<!--      <el-form-item label="开始日期" prop="astart">-->
-<!--        <el-date-picker clearable size="small"-->
-<!--                        v-model="queryParams.astart"-->
-<!--                        type="daterange"-->
-<!--                        value-format="yyyy-MM-dd"-->
-<!--                        placeholder="选择开始日期">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="结束日期" prop="aend">-->
-<!--        <el-date-picker clearable size="small"-->
-<!--                        v-model="queryParams.aend"-->
-<!--                        type="daterange"-->
-<!--                        value-format="yyyy-MM-dd"-->
-<!--                        placeholder="选择结束日期">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="开始时间" prop="astahour">-->
-<!--        <el-date-picker clearable size="small"-->
-<!--                        v-model="queryParams.astahour"-->
-<!--                        type="date"-->
-<!--                        value-format="yy:MM:dd"-->
-<!--                        placeholder="选择开始时间">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="结束时间" prop="aendhour">-->
-<!--        <el-date-picker clearable size="small"-->
-<!--                        v-model="queryParams.aendhour"-->
-<!--                        type="date"-->
-<!--                        value-format="yy:MM:dd"-->
-<!--                        placeholder="选择结束时间">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item label="开始日期" prop="astart">-->
+      <!--        <el-date-picker clearable size="small"-->
+      <!--                        v-model="queryParams.astart"-->
+      <!--                        type="daterange"-->
+      <!--                        value-format="yyyy-MM-dd"-->
+      <!--                        placeholder="选择开始日期">-->
+      <!--        </el-date-picker>-->
+      <!--      </el-form-item>-->
+      <!--      <el-form-item label="结束日期" prop="aend">-->
+      <!--        <el-date-picker clearable size="small"-->
+      <!--                        v-model="queryParams.aend"-->
+      <!--                        type="daterange"-->
+      <!--                        value-format="yyyy-MM-dd"-->
+      <!--                        placeholder="选择结束日期">-->
+      <!--        </el-date-picker>-->
+      <!--      </el-form-item>-->
+      <!--      <el-form-item label="开始时间" prop="astahour">-->
+      <!--        <el-date-picker clearable size="small"-->
+      <!--                        v-model="queryParams.astahour"-->
+      <!--                        type="date"-->
+      <!--                        value-format="yy:MM:dd"-->
+      <!--                        placeholder="选择开始时间">-->
+      <!--        </el-date-picker>-->
+      <!--      </el-form-item>-->
+      <!--      <el-form-item label="结束时间" prop="aendhour">-->
+      <!--        <el-date-picker clearable size="small"-->
+      <!--                        v-model="queryParams.aendhour"-->
+      <!--                        type="date"-->
+      <!--                        value-format="yy:MM:dd"-->
+      <!--                        placeholder="选择结束时间">-->
+      <!--        </el-date-picker>-->
+      <!--      </el-form-item>-->
       <el-form-item label="地点" prop="alocation">
         <el-input
           v-model="queryParams.alocation"
@@ -115,20 +88,20 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-<!--      <el-form-item label="人数" prop="anum">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.anum"-->
-<!--          placeholder="请输入人数"-->
-<!--          clearable-->
-<!--          size="small"-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="分数类型" prop="agradetype">-->
-<!--        <el-select v-model="queryParams.agradetype" placeholder="请选择分数类型" clearable size="small">-->
-<!--          <el-option label="请选择字典生成" value="" />-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item label="人数" prop="anum">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.anum"-->
+      <!--          placeholder="请输入人数"-->
+      <!--          clearable-->
+      <!--          size="small"-->
+      <!--          @keyup.enter.native="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
+      <!--      <el-form-item label="分数类型" prop="agradetype">-->
+      <!--        <el-select v-model="queryParams.agradetype" placeholder="请选择分数类型" clearable size="small">-->
+      <!--          <el-option label="请选择字典生成" value="" />-->
+      <!--        </el-select>-->
+      <!--      </el-form-item>-->
       <el-form-item label="总时间" prop="ahour">
         <el-input
           v-model="queryParams.ahour"
@@ -212,16 +185,16 @@
           <span>{{ parseTime(scope.row.aend) }}</span>
         </template>
       </el-table-column>
-<!--      <el-table-column label="开始时间" align="center" prop="astahour" width="180">-->
-<!--        <template slot-scope="scope">-->
-<!--          <span>{{ parseTime(scope.row.astahour) }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="结束时间" align="center" prop="aendhour" width="180">-->
-<!--        <template slot-scope="scope">-->
-<!--          <span>{{ parseTime(scope.row.aendhour) }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column label="开始时间" align="center" prop="astahour" width="180">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <span>{{ parseTime(scope.row.astahour) }}</span>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
+      <!--      <el-table-column label="结束时间" align="center" prop="aendhour" width="180">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <span>{{ parseTime(scope.row.aendhour) }}</span>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column label="地点" align="center" prop="alocation" />
       <el-table-column label="对象" align="center" prop="aobject" />
       <el-table-column label="人数" align="center" prop="anum" />
@@ -232,23 +205,23 @@
         <template slot-scope="scope">
           <el-row :gutter="10" class="mb8">
             <el-col :offset="1.5">
-          <el-button
-            size="small"
-            type="primary"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:act:edit']"
-          >修改</el-button>
+              <el-button
+                size="small"
+                type="primary"
+                icon="el-icon-edit"
+                @click="handleUpdate(scope.row)"
+                v-hasPermi="['system:act:edit']"
+              >修改</el-button>
             </el-col>
             <el-col :span="1.5">
-          <el-button
-            size="small"
-            type="danger"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['system:act:remove']"
-          >删除</el-button>
-          </el-col>
+              <el-button
+                size="small"
+                type="danger"
+                icon="el-icon-delete"
+                @click="handleDelete(scope.row)"
+                v-hasPermi="['system:act:remove']"
+              >删除</el-button>
+            </el-col>
           </el-row>
         </template>
       </el-table-column>
@@ -261,8 +234,7 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
-      </el-col>
-    </el-row>
+
     <!-- 添加或修改活动对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -272,23 +244,9 @@
         <el-form-item label="主题" prop="asubject">
           <el-input v-model="form.asubject" placeholder="请输入主题" />
         </el-form-item>
-        <el-form-item label="归属部门" prop="orgId">
-          <treeselect v-model="form.orgId" :options="orgOptions" :show-count="true" placeholder="请选择归属部门" />
-        </el-form-item>
-
-<!--        <el-form-item label="标签类型" prop="atype">-->
-<!--          <el-select v-model="form.atype" placeholder="请选择标签类型">-->
-<!--            <el-option label="请选择字典生成" value="" />-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
-        <el-form-item label="标签类型">
+        <el-form-item label="标签类型" prop="atype">
           <el-select v-model="form.atype" placeholder="请选择标签类型">
-            <el-option
-              v-for="dict in labelOptions"
-              :key="dict.dictValue"
-              :label="dict.dictLabel"
-              :value="dict.dictValue"
-            ></el-option>
+            <el-option label="请选择字典生成" value="" />
           </el-select>
         </el-form-item>
         <el-form-item label="开始日期" prop="astart">
@@ -307,22 +265,22 @@
                           placeholder="选择结束日期">
           </el-date-picker>
         </el-form-item>
-<!--        <el-form-item label="开始时间" prop="astahour">-->
-<!--          <el-date-picker clearable size="small"-->
-<!--                          v-model="form.astahour"-->
-<!--                          type="date"-->
-<!--                          value-format="yyyy-MM-dd"-->
-<!--                          placeholder="选择开始时间">-->
-<!--          </el-date-picker>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="结束时间" prop="aendhour">-->
-<!--          <el-date-picker clearable size="small"-->
-<!--                          v-model="form.aendhour"-->
-<!--                          type="date"-->
-<!--                          value-format="yyyy-MM-dd"-->
-<!--                          placeholder="选择结束时间">-->
-<!--          </el-date-picker>-->
-<!--        </el-form-item>-->
+        <!--        <el-form-item label="开始时间" prop="astahour">-->
+        <!--          <el-date-picker clearable size="small"-->
+        <!--                          v-model="form.astahour"-->
+        <!--                          type="date"-->
+        <!--                          value-format="yyyy-MM-dd"-->
+        <!--                          placeholder="选择开始时间">-->
+        <!--          </el-date-picker>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="结束时间" prop="aendhour">-->
+        <!--          <el-date-picker clearable size="small"-->
+        <!--                          v-model="form.aendhour"-->
+        <!--                          type="date"-->
+        <!--                          value-format="yyyy-MM-dd"-->
+        <!--                          placeholder="选择结束时间">-->
+        <!--          </el-date-picker>-->
+        <!--        </el-form-item>-->
         <el-form-item label="地点" prop="alocation">
           <el-input v-model="form.alocation" placeholder="请输入地点" />
         </el-form-item>
@@ -354,15 +312,10 @@
 
 <script>
   import { listAct, getAct, delAct, addAct, updateAct, exportAct } from "@/api/system/act";
-  import { getToken } from "@/utils/auth";
-  import { treeselect } from "@/api/system/org";
-  import Treeselect from "@riophae/vue-treeselect";
-  import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-
 
   export default {
     name: "Act",
-    components: {Treeselect
+    components: {
     },
     data() {
       return {
@@ -385,13 +338,7 @@
         // 是否显示弹出层
         open: false,
         // 状态数据字典
-        statusOptions: [],
-        // 标签状态字典
-        labelOptions: [],
-        // 部门树选项
-        orgOptions: undefined,
-        // 部门名称
-        orgName: undefined,
+        statusOptions: ['1','2','3'],
         // 查询参数
         queryParams: {
           pageNum: 1,
@@ -408,8 +355,7 @@
           anum: null,
           agradetype: null,
           ahour: null,
-          agrade: null,
-          orgId:null
+          agrade: null
         },
         // 表单参数
         form: {},
@@ -430,52 +376,19 @@
         }
       };
     },
-    watch: {
-      // 根据名称筛选部门树
-      orgName(val) {
-        this.$refs.tree.filter(val);
-      }
-    },
     created() {
       this.getList();
-      this.getTreeselect();
-      this.getDicts("sys_normal_disable").then(response => {
-        this.statusOptions = response.data;
-      });
-      this.getDicts("sys_act_label").then(response => {
-        this.labelOptions = response.data;
-      });
-      this.getConfigKey("sys.user.initPassword").then(response => {
-        this.initPassword = response.msg;
-      });
     },
     methods: {
       /** 查询活动列表 */
       getList() {
         this.loading = true;
-        listAct(this.queryParams, this.dateRange).then(response => {
+        listAct(this.queryParams).then(response => {
           this.actList = response.rows;
           this.total = response.total;
           this.loading = false;
         });
       },
-      /** 查询部门下拉树结构 */
-      getTreeselect() {
-        treeselect().then(response => {
-          this.orgOptions = response.data;
-        });
-      },
-      // 筛选节点
-      filterNode(value, data) {
-        if (!value) return true;
-        return data.label.indexOf(value) !== -1;
-      },
-      // 节点单击事件
-      handleNodeClick(data) {
-        this.queryParams.orgId = data.id;
-        this.getList();
-      },
-
       // 取消按钮
       cancel() {
         this.open = false;

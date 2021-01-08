@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.system.mapper.AysActMapper">
     
     <resultMap type="AysAct" id="AysActResult">
-        <result property="aid"    column="aid"    />
-        <result property="oid"    column="oid"    />
+        <result property="actId"    column="act_id"    />
+        <result property="orgId"    column="org_id"    />
         <result property="aname"    column="aname"    />
         <result property="asubject"    column="asubject"    />
         <result property="atype"    column="atype"    />
@@ -20,40 +20,94 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="agradetype"    column="agradetype"    />
         <result property="ahour"    column="ahour"    />
         <result property="agrade"    column="agrade"    />
+        <result property="delFlag"      column="del_flag"     />
+        <association property="org"    column="org_id" javaType="AysOrg" resultMap="orgResult" />
     </resultMap>
 
+    <resultMap id="orgResult" type="AysOrg">
+        <id     property="orgId"   column="org_id"     />
+        <result property="parentId" column="parent_id"   />
+        <result property="orgName" column="org_name"   />
+        <result property="orderNum" column="order_num"   />
+        <result property="leader"   column="leader"      />
+        <result property="status"   column="org_status" />
+    </resultMap>
+
+<!--    <sql id="selectAysActVo">-->
+<!--        select aid, oid, aname, asubject, atype, astart, aend, astahour, aendhour, alocation, aobject, anum, agradetype, ahour, agrade from ays_act-->
+<!--    </sql>-->
     <sql id="selectAysActVo">
-        select aid, oid, aname, asubject, atype, astart, aend, astahour, aendhour, alocation, aobject, anum, agradetype, ahour, agrade from ays_act
+        select a.act_id, a.org_id, a.aname, a.asubject, a.atype, a.astart, a.aend, a.astahour, a.aendhour, a.alocation, a.aobject, a.anum, a.agradetype, a.ahour, a.agrade,a.del_flag,
+        o.org_id, o.parent_id, o.org_name, o.order_num, o.leader, o.status as org_status
+        from ays_act a
+		    left join ays_org o on a.org_id = o.org_id
     </sql>
 
+<!--    <select id="selectAysActList" parameterType="AysAct" resultMap="AysActResult">-->
+<!--        <include refid="selectAysActVo"/>-->
+<!--        <where>-->
+<!--            <if test="aname != null  and aname != ''"> and aname like concat('%', #{aname}, '%')</if>-->
+<!--            <if test="asubject != null  and asubject != ''"> and asubject = #{asubject}</if>-->
+<!--            <if test="atype != null  and atype != ''"> and atype = #{atype}</if>-->
+<!--            <if test="astart != null "> and astart = #{astart}</if>-->
+<!--            <if test="aend != null "> and aend = #{aend}</if>-->
+<!--            <if test="astahour != null "> and astahour = #{astahour}</if>-->
+<!--            <if test="aendhour != null "> and aendhour = #{aendhour}</if>-->
+<!--            <if test="alocation != null  and alocation != ''"> and alocation = #{alocation}</if>-->
+<!--            <if test="aobject != null  and aobject != ''"> and aobject = #{aobject}</if>-->
+<!--            <if test="anum != null "> and anum = #{anum}</if>-->
+<!--            <if test="agradetype != null  and agradetype != ''"> and agradetype = #{agradetype}</if>-->
+<!--            <if test="ahour != null "> and ahour = #{ahour}</if>-->
+<!--            <if test="agrade != null "> and agrade = #{agrade}</if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+
     <select id="selectAysActList" parameterType="AysAct" resultMap="AysActResult">
-        <include refid="selectAysActVo"/>
-        <where>
-            <if test="aname != null  and aname != ''"> and aname like concat('%', #{aname}, '%')</if>
-            <if test="asubject != null  and asubject != ''"> and asubject = #{asubject}</if>
-            <if test="atype != null  and atype != ''"> and atype = #{atype}</if>
-            <if test="astart != null "> and astart = #{astart}</if>
-            <if test="aend != null "> and aend = #{aend}</if>
-            <if test="astahour != null "> and astahour = #{astahour}</if>
-            <if test="aendhour != null "> and aendhour = #{aendhour}</if>
-            <if test="alocation != null  and alocation != ''"> and alocation = #{alocation}</if>
-            <if test="aobject != null  and aobject != ''"> and aobject = #{aobject}</if>
-            <if test="anum != null "> and anum = #{anum}</if>
-            <if test="agradetype != null  and agradetype != ''"> and agradetype = #{agradetype}</if>
-            <if test="ahour != null "> and ahour = #{ahour}</if>
-            <if test="agrade != null "> and agrade = #{agrade}</if>
-        </where>
+        select a.act_id, a.org_id, a.aname, a.asubject, a.atype, a.astart, a.aend, a.astahour, a.aendhour, a.alocation, a.aobject, a.anum, a.agradetype, a.ahour, a.agrade,a.del_flag, o.org_name, o.leader from ays_act a
+        left join ays_org o on a.org_id = o.org_id
+        where a.del_flag = '0'
+        <if test="aname != null  and aname != ''"> and a.aname like concat('%', #{aname}, '%')</if>
+        <if test="asubject != null  and asubject != ''"> and a.asubject = #{asubject}</if>
+        <if test="atype != null  and atype != ''"> and a.atype = #{atype}</if>
+        <if test="astart != null "> and a.astart = #{astart}</if>
+        <if test="aend != null "> and a.aend = #{aend}</if>
+        <if test="astahour != null "> and a.astahour = #{astahour}</if>
+        <if test="aendhour != null "> and a.aendhour = #{aendhour}</if>
+        <if test="alocation != null  and alocation != ''"> and a.alocation = #{alocation}</if>
+        <if test="aobject != null  and aobject != ''"> and a.aobject = #{aobject}</if>
+        <if test="anum != null "> and a.anum like concat('%', #{anum}, '%')</if>
+        <if test="agradetype != null  and agradetype != ''"> and a.agradetype = #{agradetype}</if>
+        <if test="ahour != null "> and a.ahour = #{ahour}</if>
+        <if test="agrade != null "> and a.agrade = #{agrade}</if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            AND date_format(a.astart,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            AND date_format(a.aend,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND (a.org_id = #{orgId} OR a.org_id IN ( SELECT t.org_id FROM ays_org t WHERE find_in_set(#{orgId}, ancestors) ))
+        </if>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
     </select>
+
+
 
     <select id="selectAysActById" parameterType="Long" resultMap="AysActResult">
         <include refid="selectAysActVo"/>
-        where aid = #{aid}
+        where a.act_id = #{actId}
+    </select>
+    <select id="selectAysActByActName" parameterType="String" resultMap="AysActResult">
+        <include refid="selectAysActVo"/>
+        where a.aname = #{aname}
     </select>
 
     <insert id="insertAysAct" parameterType="AysAct" useGeneratedKeys="true" keyProperty="aid">
         insert into ays_act
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="oid != null">oid,</if>
+            <if test="orgId != null">org_id,</if>
             <if test="aname != null and aname != ''">aname,</if>
             <if test="asubject != null and asubject != ''">asubject,</if>
             <if test="atype != null and atype != ''">atype,</if>
@@ -69,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="agrade != null">agrade,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="oid != null">#{oid},</if>
+            <if test="orgId != null">#{orgId},</if>
             <if test="aname != null and aname != ''">#{aname},</if>
             <if test="asubject != null and asubject != ''">#{asubject},</if>
             <if test="atype != null and atype != ''">#{atype},</if>
@@ -89,7 +143,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateAysAct" parameterType="AysAct">
         update ays_act
         <trim prefix="SET" suffixOverrides=",">
-            <if test="oid != null">oid = #{oid},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
             <if test="aname != null and aname != ''">aname = #{aname},</if>
             <if test="asubject != null and asubject != ''">asubject = #{asubject},</if>
             <if test="atype != null and atype != ''">atype = #{atype},</if>
@@ -104,17 +158,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ahour != null">ahour = #{ahour},</if>
             <if test="agrade != null">agrade = #{agrade},</if>
         </trim>
-        where aid = #{aid}
+        where act_id = #{actId}
     </update>
 
     <delete id="deleteAysActById" parameterType="Long">
-        delete from ays_act where aid = #{aid}
+        delete from ays_act where act_id = #{actId}
     </delete>
 
-    <delete id="deleteAysActByIds" parameterType="String">
-        delete from ays_act where aid in
-        <foreach item="aid" collection="array" open="(" separator="," close=")">
-            #{aid}
+<!--    <delete id="deleteAysActByIds" parameterType="String">-->
+<!--&#45;&#45;         delete from ays_act where act_id in-->
+    <delete id="deleteAysActByIds" parameterType="Long">
+        update ays_act set del_flag = '2' where act_id in
+        <foreach item="actId" collection="array" open="(" separator="," close=")">
+            #{act_id}
         </foreach>
     </delete>
 

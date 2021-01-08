@@ -1,4 +1,4 @@
-package com.ruoyi.system.domain;
+package com.ruoyi.common.core.domain.entity;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 活动对象 ays_act
- * 
+ *
  * @author ruoyi
  * @date 2021-01-06
  */
@@ -18,10 +18,10 @@ public class AysAct extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 活动id */
-    private Long aid;
+    private Long actId;
 
     /** 所属组织方id */
-    private Long oid;
+    private Long orgId;
 
     /** 名称 */
     @Excel(name = "名称")
@@ -80,70 +80,94 @@ public class AysAct extends BaseEntity
     @Excel(name = "分数")
     private Integer agrade;
 
-    public void setAid(Long aid) 
-    {
-        this.aid = aid;
+
+
+    /** 删除标志（0代表存在 2代表删除） */
+    private String delFlag;
+
+    public AysOrg getOrg() {
+        return org;
     }
 
-    public Long getAid() 
-    {
-        return aid;
-    }
-    public void setOid(Long oid) 
-    {
-        this.oid = oid;
+    public void setOrg(AysOrg org) {
+        this.org = org;
     }
 
-    public Long getOid() 
-    {
-        return oid;
+    private AysOrg org;
+
+    public String getDelFlag() {
+        return delFlag;
     }
-    public void setAname(String aname) 
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+
+
+    public void setActId(Long actId)
+    {
+        this.actId = actId;
+    }
+
+    public Long getActId()
+    {
+        return actId;
+    }
+    public void setOrgId(Long orgId)
+    {
+        this.orgId = orgId;
+    }
+
+    public Long getOrgId()
+    {
+        return orgId;
+    }
+    public void setAname(String aname)
     {
         this.aname = aname;
     }
 
-    public String getAname() 
+    public String getAname()
     {
         return aname;
     }
-    public void setAsubject(String asubject) 
+    public void setAsubject(String asubject)
     {
         this.asubject = asubject;
     }
 
-    public String getAsubject() 
+    public String getAsubject()
     {
         return asubject;
     }
-    public void setAtype(String atype) 
+    public void setAtype(String atype)
     {
         this.atype = atype;
     }
 
-    public String getAtype() 
+    public String getAtype()
     {
         return atype;
     }
-    public void setAstart(Date astart) 
+    public void setAstart(Date astart)
     {
         this.astart = astart;
     }
 
-    public Date getAstart() 
+    public Date getAstart()
     {
         return astart;
     }
-    public void setAend(Date aend) 
+    public void setAend(Date aend)
     {
         this.aend = aend;
     }
 
-    public Date getAend() 
+    public Date getAend()
     {
         return aend;
     }
-    public void setAlocation(String alocation) 
+    public void setAlocation(String alocation)
     {
         this.alocation = alocation;
     }
@@ -163,38 +187,38 @@ public class AysAct extends BaseEntity
         return aendhour;
     }
 
-    public String getAlocation() 
+    public String getAlocation()
     {
         return alocation;
     }
-    public void setAobject(String aobject) 
+    public void setAobject(String aobject)
     {
         this.aobject = aobject;
     }
 
-    public String getAobject() 
+    public String getAobject()
     {
         return aobject;
     }
-    public void setAnum(Integer anum) 
+    public void setAnum(Integer anum)
     {
         this.anum = anum;
     }
 
-    public Integer getAnum() 
+    public Integer getAnum()
     {
         return anum;
     }
-    public void setAgradetype(String agradetype) 
+    public void setAgradetype(String agradetype)
     {
         this.agradetype = agradetype;
     }
 
-    public String getAgradetype() 
+    public String getAgradetype()
     {
         return agradetype;
     }
-    public void setAgrade(Integer agrade) 
+    public void setAgrade(Integer agrade)
     {
         this.agrade = agrade;
     }
@@ -209,7 +233,7 @@ public class AysAct extends BaseEntity
         return ahour;
     }
 
-    public Integer getAgrade() 
+    public Integer getAgrade()
     {
         return agrade;
     }
@@ -217,21 +241,23 @@ public class AysAct extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("aid", getAid())
-            .append("oid", getOid())
-            .append("aname", getAname())
-            .append("asubject", getAsubject())
-            .append("atype", getAtype())
-            .append("astart", getAstart())
-            .append("aend", getAend())
-            .append("astahour", getAstahour())
-            .append("aendhour", getAendhour())
-            .append("alocation", getAlocation())
-            .append("aobject", getAobject())
-            .append("anum", getAnum())
-            .append("agradetype", getAgradetype())
-            .append("ahour", getAhour())
-            .append("agrade", getAgrade())
-            .toString();
+                .append("actId", getActId())
+                .append("orgId", getOrgId())
+                .append("aname", getAname())
+                .append("asubject", getAsubject())
+                .append("atype", getAtype())
+                .append("astart", getAstart())
+                .append("aend", getAend())
+                .append("astahour", getAstahour())
+                .append("aendhour", getAendhour())
+                .append("alocation", getAlocation())
+                .append("aobject", getAobject())
+                .append("anum", getAnum())
+                .append("agradetype", getAgradetype())
+                .append("ahour", getAhour())
+                .append("agrade", getAgrade())
+                .append("delFlag", getDelFlag())
+                .append("org", getOrg())
+                .toString();
     }
 }

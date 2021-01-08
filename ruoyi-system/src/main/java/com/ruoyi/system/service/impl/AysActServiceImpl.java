@@ -1,10 +1,11 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.entity.AysAct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.AysActMapper;
-import com.ruoyi.system.domain.AysAct;
 import com.ruoyi.system.service.IAysActService;
 
 /**
