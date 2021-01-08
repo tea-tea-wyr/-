@@ -113,6 +113,8 @@ public class AysAct extends BaseEntity
     {
         return actId;
     }
+
+
     public void setOrgId(Long orgId)
     {
         this.orgId = orgId;

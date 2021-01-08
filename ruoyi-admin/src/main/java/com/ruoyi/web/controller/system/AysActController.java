@@ -63,10 +63,10 @@ public class AysActController extends BaseController
      * 获取活动详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:act:query')")
-    @GetMapping(value = "/{aid}")
-    public AjaxResult getInfo(@PathVariable("aid") Long aid)
+    @GetMapping(value = "/{actId}")
+    public AjaxResult getInfo(@PathVariable("actId") Long actId)
     {
-        return AjaxResult.success(aysActService.selectAysActById(aid));
+        return AjaxResult.success(aysActService.selectAysActById(actId));
     }
 
     /**
@@ -91,14 +91,15 @@ public class AysActController extends BaseController
         return toAjax(aysActService.updateAysAct(aysAct));
     }
 
+
     /**
      * 删除活动
      */
     @PreAuthorize("@ss.hasPermi('system:act:remove')")
     @Log(title = "活动", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{aids}")
-    public AjaxResult remove(@PathVariable Long[] aids)
+    @DeleteMapping("/{actIds}")
+    public AjaxResult remove(@PathVariable Long[] actIds)
     {
-        return toAjax(aysActService.deleteAysActByIds(aids));
+        return toAjax(aysActService.deleteAysActByIds(actIds));
     }
 }

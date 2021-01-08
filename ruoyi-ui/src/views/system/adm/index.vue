@@ -138,10 +138,10 @@
           <el-input v-model="form.mnick" placeholder="请输入昵称" />
         </el-form-item>
         <el-form-item label="角色" prop="mrole">
-          <el-input v-model="form.mrole" placeholder="请输入角色" />
+          <el-input v-model="form.mrole" placeholder="请输入角色（限一位数字）" />
         </el-form-item>
         <el-form-item label="权限" prop="maccess">
-          <el-input v-model="form.maccess" placeholder="请输入权限" />
+          <el-input v-model="form.maccess" placeholder="请输入权限（限一位数字）" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

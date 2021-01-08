@@ -198,8 +198,8 @@
     <el-table v-loading="loading" :data="actList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="活动id" align="center" prop="actId" />
-      <el-table-column label="所属组织方id" align="center" prop="orgId" />
-      <el-table-column label="名称" align="center" prop="aname" />
+      <el-table-column label="所属组织方id" align="center" prop="orgId" width="180px"/>
+      <el-table-column label="名称" align="center" prop="aname" width="180px"/>
       <el-table-column label="主题" align="center" prop="asubject" />
       <el-table-column label="标签类型" align="center" prop="atype" />
       <el-table-column label="开始日期" align="center" prop="astart" width="180">
@@ -222,16 +222,22 @@
 <!--          <span>{{ parseTime(scope.row.aendhour) }}</span>-->
 <!--        </template>-->
 <!--      </el-table-column>-->
-      <el-table-column label="地点" align="center" prop="alocation" />
-      <el-table-column label="对象" align="center" prop="aobject" />
+      <el-table-column label="地点" align="center" prop="alocation" width="180px"/>
+      <el-table-column label="对象" align="center" prop="aobject" width="180px"/>
       <el-table-column label="人数" align="center" prop="anum" />
       <el-table-column label="分数类型" align="center" prop="agradetype" />
       <el-table-column label="总时间" align="center" prop="ahour" />
       <el-table-column label="分数" align="center" prop="agrade" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+        width="230"
+
+      >
         <template slot-scope="scope">
-          <el-row :gutter="10" class="mb8">
-            <el-col :offset="1.5">
+<!--          <el-row :gutter="10" class="mb8">-->
+<!--            <el-col :offset="1.5">-->
           <el-button
             size="small"
             type="primary"
@@ -239,8 +245,8 @@
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:act:edit']"
           >修改</el-button>
-            </el-col>
-            <el-col :span="1.5">
+<!--            </el-col>-->
+<!--            <el-col :span="1.5">-->
           <el-button
             size="small"
             type="danger"
@@ -248,8 +254,8 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:act:remove']"
           >删除</el-button>
-          </el-col>
-          </el-row>
+<!--          </el-col>-->
+<!--          </el-row>-->
         </template>
       </el-table-column>
     </el-table>
@@ -295,7 +301,7 @@
           <el-date-picker clearable size="small"
                           v-model="form.astart"
                           type="date"
-                          value-format="yyyy-MM-dd"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           placeholder="选择开始日期">
           </el-date-picker>
         </el-form-item>
@@ -303,7 +309,7 @@
           <el-date-picker clearable size="small"
                           v-model="form.aend"
                           type="date"
-                          value-format="yyyy-MM-dd"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           placeholder="选择结束日期">
           </el-date-picker>
         </el-form-item>
@@ -333,12 +339,22 @@
           <el-input v-model="form.anum" placeholder="请输入人数" />
         </el-form-item>
         <el-form-item label="分数类型" prop="agradetype">
+<!--          <el-select v-model="form.agradetype" placeholder="请选择分数类型">-->
+<!--            <el-option label="请选择字典生成" value="" />-->
+<!--          </el-select>-->
+
           <el-select v-model="form.agradetype" placeholder="请选择分数类型">
-            <el-option label="请选择字典生成" value="" />
+            <el-option
+              v-for="dict in gradetypeOptions"
+              :key="dict.dictValue"
+              :label="dict.dictLabel"
+              :value="dict.dictValue"
+            ></el-option>
           </el-select>
+
         </el-form-item>
         <el-form-item label="总时间" prop="ahour">
-          <el-input v-model="form.ahour" placeholder="请输入总时间" />
+          <el-input v-model="form.ahour" placeholder="请输入总时间(按小时计算)" />
         </el-form-item>
         <el-form-item label="分数" prop="agrade">
           <el-input v-model="form.agrade" placeholder="请输入分数" />
@@ -388,6 +404,8 @@
         statusOptions: [],
         // 标签状态字典
         labelOptions: [],
+        // 分数类型字典
+        gradetypeOptions:[],
         // 部门树选项
         orgOptions: undefined,
         // 部门名称
@@ -444,6 +462,9 @@
       });
       this.getDicts("sys_act_label").then(response => {
         this.labelOptions = response.data;
+      });
+      this.getDicts("sys_user_grade").then(response => {
+        this.gradetypeOptions = response.data;
       });
       this.getConfigKey("sys.user.initPassword").then(response => {
         this.initPassword = response.msg;

@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.system.mapper.AysActMapper">
     
     <resultMap type="AysAct" id="AysActResult">
-        <result property="actId"    column="act_id"    />
+        <id property="actId"    column="act_id"    />
         <result property="orgId"    column="org_id"    />
         <result property="aname"    column="aname"    />
         <result property="asubject"    column="asubject"    />
@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.aname = #{aname}
     </select>
 
-    <insert id="insertAysAct" parameterType="AysAct" useGeneratedKeys="true" keyProperty="aid">
+    <insert id="insertAysAct" parameterType="AysAct" useGeneratedKeys="true" keyProperty="actId">
         insert into ays_act
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orgId != null">org_id,</if>
@@ -166,11 +166,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
 <!--    <delete id="deleteAysActByIds" parameterType="String">-->
-<!--&#45;&#45;         delete from ays_act where act_id in-->
-    <delete id="deleteAysActByIds" parameterType="Long">
-        update ays_act set del_flag = '2' where act_id in
+<!--         delete from ays_act where act_id in-->
+    <delete id="deleteAysActByIds" parameterType="String">
+#         update ays_act set del_flag = '2' where act_id in
+        delete from ays_act where act_id in
         <foreach item="actId" collection="array" open="(" separator="," close=")">
-            #{act_id}
+            #{actId}
         </foreach>
     </delete>
 

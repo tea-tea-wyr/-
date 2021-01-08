@@ -23,13 +23,13 @@ public class AysActServiceImpl implements IAysActService
     /**
      * 查询活动
      * 
-     * @param aid 活动ID
+     * @param actId 活动ID
      * @return 活动
      */
     @Override
-    public AysAct selectAysActById(Long aid)
+    public AysAct selectAysActById(Long actId)
     {
-        return aysActMapper.selectAysActById(aid);
+        return aysActMapper.selectAysActById(actId);
     }
 
     /**
@@ -71,24 +71,24 @@ public class AysActServiceImpl implements IAysActService
     /**
      * 批量删除活动
      * 
-     * @param aids 需要删除的活动ID
+     * @param actIds 需要删除的活动ID
      * @return 结果
      */
     @Override
-    public int deleteAysActByIds(Long[] aids)
+    public int deleteAysActByIds(Long[] actIds)
     {
-        return aysActMapper.deleteAysActByIds(aids);
+        return aysActMapper.deleteAysActByIds(actIds);
     }
 
     /**
      * 删除活动信息
      * 
-     * @param aid 活动ID
+     * @param actId 活动ID
      * @return 结果
      */
     @Override
-    public int deleteAysActById(Long aid)
+    public int deleteAysActById(Long actId)
     {
-        return aysActMapper.deleteAysActById(aid);
+        return aysActMapper.deleteAysActById(actId);
     }
 }
