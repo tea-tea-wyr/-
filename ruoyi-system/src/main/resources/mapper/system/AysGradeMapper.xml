@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AysGradeMapper">
+    
+    <resultMap type="AysGrade" id="AysGradeResult">
+        <result property="stuId"    column="stuId"    />
+        <result property="actId"    column="actId"    />
+        <result property="hour"    column="hour"    />
+        <result property="grade"    column="grade"    />
+    </resultMap>
+
+    <sql id="selectAysGradeVo">
+        select stuId, actId, hour, grade from ays_grade
+    </sql>
+
+    <select id="selectAysGradeList" parameterType="AysGrade" resultMap="AysGradeResult">
+        <include refid="selectAysGradeVo"/>
+        <where>
+            <if test="stuId != null and stuId!='' "> and stuId = #{stuId}</if>
+            <if test="actId != null and actId!=0"> and actId = #{actId}</if>
+            <if test="hour != null "> and hour = #{hour}</if>
+            <if test="grade != null "> and grade = #{grade}</if>
+        </where>
+    </select>
+    
+    <select id="selectAysGradeById" parameterType="String" resultMap="AysGradeResult">
+        <include refid="selectAysGradeVo"/>
+        where stuId = #{stuId}
+    </select>
+    <insert id="insertAysGrade" parameterType="AysGrade">
+        insert into ays_grade
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stuId != null and stuId!='' ">stuId,</if>
+            <if test="actId != null and actId!=0">actId,</if>
+            <if test="hour != null">hour,</if>
+            <if test="grade != null">grade,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stuId != null and stuId!=''">#{stuId},</if>
+            <if test="actId != null and actId!=0">#{actId},</if>
+            <if test="hour != null">#{hour},</if>
+            <if test="grade != null">#{grade},</if>
+        </trim>
+    </insert>
+        
+<!--    <insert id="insertAysGrade" parameterType="AysGrade">-->
+<!--        insert into ays_grade-->
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--            <if test="stuId != null and stuId!='' ">stuId,</if>-->
+<!--            <if test="actId != null and actId!=0">actId,</if>-->
+<!--            <if test="hour != null">hour,</if>-->
+<!--            <if test="grade != null">grade,</if>-->
+<!--         </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="stuId != null and stuId!=''">#{stuId},</if>-->
+<!--            <if test="actId != null and actId!=0">#{actId},</if>-->
+<!--            <if test="hour != null">#{hour},</if>-->
+<!--            <if test="grade != null">#{grade},</if>-->
+<!--         </trim>-->
+<!--    </insert>-->
+
+    <update id="updateAysGrade" parameterType="AysGrade">
+        update ays_grade
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actId != null and actId!=0">actId = #{actId},</if>
+            <if test="hour != null">hour = #{hour},</if>
+            <if test="grade != null">grade = #{grade},</if>
+        </trim>
+        where stuId = #{stuId}
+    </update>
+
+    <delete id="deleteAysGradeById" parameterType="String">
+        delete from ays_grade where stuId = #{stuId}
+    </delete>
+
+    <delete id="deleteAysGradeByIds" parameterType="String">
+        delete from ays_grade where stuId in 
+        <foreach item="stuId" collection="array" open="(" separator="," close=")">
+            #{stuId}
+        </foreach>
+    </delete>
+    
+</mapper>

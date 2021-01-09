@@ -61,3 +61,16 @@
 # insert into sys_dict_data values(29,  1,  '党建类',       '0',       'sys_user_sex',        '',   '',        'Y', '0', 'admin', sysdate(), '', null, '性别男');
 # insert into sys_dict_data values(30,  2,  '志愿类',       '1',       'sys_user_sex',        '',   '',        'N', '0', 'admin', sysdate(), '', null, '性别女');
 
+-- ----------------------------
+-- 3、学生活动成绩表
+-- ----------------------------
+drop table if exists ays_grade;
+create table ays_grade(                       
+stuId varchar(10) not null comment '学号',
+actId bigint(20) not null comment '活动id',
+hour  int(10) default 0 comment '记录时长',
+grade int(10) default 0 comment '活动分数',
+primary key(sno,aid)
+)engine=innodb comment='学生活动成绩表';
+
+insert into ays_grade values('2017040307','1',10,30);
