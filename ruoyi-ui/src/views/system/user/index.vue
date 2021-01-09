@@ -594,6 +594,7 @@ export default {
               this.getList();
             });
           } else {
+            console.log(this.form);
             addUser(this.form).then(response => {
               this.msgSuccess("新增成功");
               this.open = false;

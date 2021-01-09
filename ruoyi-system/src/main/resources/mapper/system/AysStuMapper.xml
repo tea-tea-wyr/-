@@ -103,49 +103,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select stu_id, semail from ays_stu where semail = #{email} limit 1
 	</select>
 	
-	<insert id="insertStu" parameterType="AysStu" useGeneratedKeys="true" keyProperty="stuId">
- 		insert into ays_stu(
- 			<if test="stuId != null and stuId != 0">stu_id,</if>
- 			<if test="deptId != null and deptId != 0">dept_id,</if>
+	<insert id="insertStu" parameterType="AysStu" useGeneratedKeys="false" keyProperty="stuId">
+ 		insert into ays_stu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+ 			<if test="stuId != null and stuId != ''">stu_id,</if>
+		    <if test="spwd != null and spwd != ''">spwd,</if>
  			<if test="stuName != null and stuName != ''">stu_name,</if>
-		<if test="spwd != null and spwd != ''">spwd,</if>
-		<if test="sdegree != null">sdegree,</if>
-		<if test="sacademy != null and sacademy != ''">sacademy,</if>
-		<if test="sclass != null and sclass != ''">sclass,</if>
-		<if test="snum != null">snum,</if>
-		<if test="semail != null">semail,</if>
-		<if test="sgender != null">sgender,</if>
-		<if test="sstatus != null">sstatus,</if>
-		<if test="sjob != null">sjob,</if>
-		<if test="srole != null">srole,</if>
-		<if test="sremark != null">sremark,</if>
-		<if test="loginip != null">loginip,</if>
-		<if test="logintime != null">logintime,</if>
-
- 		)values(
+		    <if test="deptId != null and deptId != 0">dept_id,</if>
+		    <if test="sdegree != null ">sdegree,</if>
+		    <if test="sacademy != null ">sacademy,</if>
+		    <if test="sclass != null ">sclass,</if>
+		    <if test="snum != null and snum!='' ">snum,</if>
+		    <if test="semail != null and semail!='' ">semail,</if>
+		    <if test="sgender != null and sgender!='' ">sgender,</if>
+		    <if test="sstatus != null and sstatus!='' ">sstatus,</if>
+		    <if test="sjob != null and sjob!='' ">sjob,</if>
+		    <if test="srole != null and srole!='' ">srole,</if>
+		    <if test="sremark != null and sremark!='' ">sremark,</if>
+		    <if test="loginip != null and loginip!='' ">loginip,</if>
+		    <if test="logintime != null ">logintime,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
  			<if test="stuId != null and stuId != ''">#{stuId},</if>
- 			<if test="deptId != null and deptId != ''">#{deptId},</if>
+		    <if test="spwd != null and spwd != ''">#{spwd},</if>
  			<if test="stuName != null and stuName != ''">#{stuName},</if>
-		<if test="spwd != null and spwd != ''">#{spwd},</if>
-		<if test="sdegree != null">#{sdegree},</if>
-		<if test="sacademy != null and sacademy != ''">#{sacademy},</if>
-		<if test="sclass != null and sclass != ''">#{sclass},</if>
-		<if test="snum != null">#{snum},</if>
-		<if test="semail != null">#{semail},</if>
-		<if test="sgender != null">#{sgender},</if>
-		<if test="sstatus != null">#{sstatus},</if>
-		<if test="sjob != null">#{sjob},</if>
-		<if test="srole != null">#{srole},</if>
-		<if test="sremark != null">#{sremark},</if>
-		<if test="loginip != null">#{loginip},</if>
-		<if test="logintime != null">#{logintime},</if>
- 			sysdate()
- 		)
+		    <if test="deptId != null and deptId != ''">#{deptId},</if>
+		    <if test="sdegree != null ">#{sdegree},</if>
+		    <if test="sacademy != null ">#{sacademy},</if>
+		    <if test="sclass != null">#{sclass},</if>
+		    <if test="snum != null and snum!=''">#{snum},</if>
+		    <if test="semail != null and semail!=''">#{semail},</if>
+		    <if test="sgender != null and sgender!=''">#{sgender},</if>
+		    <if test="sstatus != null and sstatus!=''">#{sstatus},</if>
+		    <if test="sjob != null and sjob!=''">#{sjob},</if>
+		    <if test="srole != null and srole!=''">#{srole},</if>
+		    <if test="sremark != null and sremark!=''">#{sremark},</if>
+		    <if test="loginip != null and loginip!=''">#{loginip},</if>
+		    <if test="logintime != null">#{logintime},</if>
+		</trim>
 	</insert>
 	
 	<update id="updateStu" parameterType="AysStu">
  		update ays_stu
- 		<set>
+		<trim prefix="SET" suffixOverrides=",">
  			<if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
  			<if test="stuName != null and stuName != ''">stu_name = #{stuName},</if>
 			<if test="spwd != null and spwd != ''">spwd = #{spwd},</if>
@@ -161,7 +161,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="sremark != null">sremark = #{sremark},</if>
 			<if test="loginip != null">loginip = #{loginip},</if>
 			<if test="logintime != null">logintime = #{logintime},</if>
- 		</set>
+		</trim>
  		where stu_id = #{stuId}
 	</update>
 	

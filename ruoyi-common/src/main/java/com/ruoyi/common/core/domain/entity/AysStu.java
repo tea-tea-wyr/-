@@ -17,8 +17,8 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2021-01-07
  */
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class AysStu extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -88,12 +88,15 @@ public class AysStu extends BaseEntity
     private String loginip;
 
     /** 最后登录时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd hh:mm:ss")
     private Date logintime;
 
     public AysStu(String stuId) {
         this.stuId=stuId;
+    }
+    public AysStu(){
+
     }
 
     public SysDept getDept() {

@@ -234,10 +234,10 @@ public class AysStuServiceImpl implements IAysStuService
         return rows;
     }
 
-    @Override
-    public int updateStu(AysStu stu) {
-        return 0;
-    }
+//    @Override
+//    public int updateStu(AysStu stu) {
+//        return 0;
+//    }
 
     /**
      * 修改保存用户信息
@@ -245,12 +245,12 @@ public class AysStuServiceImpl implements IAysStuService
      * @param stu 用户信息
      * @return 结果
      */
-//    @Override
-//    @Transactional
-//    public int updateStu(AysStu stu)
-//    {
-//        Long stuId = stu.getStuId();
-//        // 删除用户与角色关联
+    @Override
+    @Transactional
+    public int updateStu(AysStu stu)
+    {
+        String stuId = stu.getStuId();
+        // 删除用户与角色关联
 //        stuRoleMapper.deleteStuRoleByStuId(stuId);
 //        // 新增用户与角色管理
 //        insertStuRole(stu);
@@ -258,8 +258,8 @@ public class AysStuServiceImpl implements IAysStuService
 //        stuPostMapper.deleteStuPostByStuId(stuId);
 //        // 新增用户与岗位管理
 //        insertStuPost(stu);
-//        return stuMapper.updateStu(stu);
-//    }
+        return stuMapper.updateStu(stu);
+    }
 
     /**
      * 修改用户状态

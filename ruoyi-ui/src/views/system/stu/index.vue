@@ -197,7 +197,7 @@
       <el-table-column label="最后登录IP" align="center" prop="loginip" />
       <el-table-column label="最后登录时间" align="center" prop="logintime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.logintime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.logintime, '{y}-{m}-{d} {h}:{m}{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -287,7 +287,7 @@
           <el-date-picker clearable size="small"
             v-model="form.logintime"
             type="date"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd hh:mm:ss"
             placeholder="选择最后登录时间">
           </el-date-picker>
         </el-form-item>
@@ -342,7 +342,7 @@ export default {
       postOptions: [],
       // 角色选项
       roleOptions: [],
-
+      updateFlag: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -441,29 +441,49 @@ export default {
     cancel() {
       this.open = false;
       this.reset();
+      this.updateFlag=false;
     },
     // 表单重置
     reset() {
+      
       this.form = {
-        stuId: null,
-        spwd: 'null',
-        stuName: 'mengzai',
-        deptId: null,
-        sdegree: '0',
-        sacademy: 'null',
-        sclass: 'null',
-        snum: '18801245138',
-        semail: 'null',
-        sgender: '0',
-        sstatus: "0",
-        sjob: 'null',
-        srole: 'null',
-        sremark: 'null',
-        loginip: null,
-        logintime: null,
-        delFlag:'0'
+        stuId: undefined,
+        spwd: undefined,
+        stuName:undefined,
+        deptId: undefined,
+        sdegree: undefined,
+        sacademy: undefined,
+        sclass: undefined,
+        snum: undefined,
+        semail: undefined,
+        sgender: undefined,
+        sstatus: undefined,
+        sjob: undefined,
+        srole: undefined,
+        sremark: undefined,
+        loginip: undefined,
+        logintime: undefined
         
       };
+      // this.form = {
+      //   stuId: null,
+      //   spwd: '789',
+      //   stuName: 'mengzai',
+      //   deptId: '100',
+      //   sdegree: '0',
+      //   sacademy: '信息学院',
+      //   sclass: '计科1702',
+      //   snum: '18801245138',
+      //   semail: '4101842',
+      //   sgender: '0',
+      //   sstatus: "0",
+      //   sjob: '撒旦解放和',
+      //   srole: '数据都是废话',
+      //   sremark: '史蒂夫为福建',
+      //   loginip: null,
+      //   logintime: null
+        
+      // };
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -487,15 +507,19 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加学生";
+      this.updateFlag=false;
+      console.log(this.updateFlag);
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const stuId = row.stuId || this.ids
       getStu(stuId).then(response => {
+        this.updateFlag = true;
         this.form = response.data;
         this.open = true;
         this.title = "修改学生";
+        console.log(this.updateFlag);
       });
     },
     /** 提交按钮 */
@@ -504,14 +528,20 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
             console.log("valid成功！")
-          if (this.form.stuId != null) {
+            console.log(this.form);
+          if (this.updateFlag==true) {
+            console.log(this.updateFlag);
+            console.log("111");
             updateStu(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
+              this.updateFlag=false;
             });
           } else {
             addStu(this.form).then(response => {
+              console.log(this.updateFlag);
+              console.log("000");
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
