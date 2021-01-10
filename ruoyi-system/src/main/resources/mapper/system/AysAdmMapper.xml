@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AysAdmMapper">
+    
+    <resultMap type="AysAdm" id="AysAdmResult">
+        <result property="mno"    column="mno"    />
+        <result property="mpwd"    column="mpwd"    />
+        <result property="mnick"    column="mnick"    />
+        <result property="mrole"    column="mrole"    />
+        <result property="maccess"    column="maccess"    />
+    </resultMap>
+
+    <sql id="selectAysAdmVo">
+        select mno, mpwd, mnick, mrole, maccess from ays_adm
+    </sql>
+
+    <select id="selectAysAdmList" parameterType="AysAdm" resultMap="AysAdmResult">
+        <include refid="selectAysAdmVo"/>
+        <where>  
+            <if test="mpwd != null  and mpwd != ''"> and mpwd = #{mpwd}</if>
+            <if test="mnick != null  and mnick != ''"> and mnick = #{mnick}</if>
+            <if test="mrole != null  and mrole != ''"> and mrole = #{mrole}</if>
+            <if test="maccess != null  and maccess != ''"> and maccess = #{maccess}</if>
+        </where>
+    </select>
+    
+    <select id="selectAysAdmById" parameterType="Long" resultMap="AysAdmResult">
+        <include refid="selectAysAdmVo"/>
+        where mno = #{mno}
+    </select>
+        
+    <insert id="insertAysAdm" parameterType="AysAdm" useGeneratedKeys="true" keyProperty="mno">
+        insert into ays_adm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mpwd != null and mpwd != ''">mpwd,</if>
+            <if test="mnick != null and mnick != ''">mnick,</if>
+            <if test="mrole != null">mrole,</if>
+            <if test="maccess != null">maccess,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mpwd != null and mpwd != ''">#{mpwd},</if>
+            <if test="mnick != null and mnick != ''">#{mnick},</if>
+            <if test="mrole != null">#{mrole},</if>
+            <if test="maccess != null">#{maccess},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAysAdm" parameterType="AysAdm">
+        update ays_adm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mpwd != null and mpwd != ''">mpwd = #{mpwd},</if>
+            <if test="mnick != null and mnick != ''">mnick = #{mnick},</if>
+            <if test="mrole != null">mrole = #{mrole},</if>
+            <if test="maccess != null">maccess = #{maccess},</if>
+        </trim>
+        where mno = #{mno}
+    </update>
+
+    <delete id="deleteAysAdmById" parameterType="Long">
+        delete from ays_adm where mno = #{mno}
+    </delete>
+
+    <delete id="deleteAysAdmByIds" parameterType="String">
+        delete from ays_adm where mno in 
+        <foreach item="mno" collection="array" open="(" separator="," close=")">
+            #{mno}
+        </foreach>
+    </delete>
+    
+</mapper>
