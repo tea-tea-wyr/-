@@ -9,10 +9,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="actId"    column="actId"    />
         <result property="hour"    column="hour"    />
         <result property="grade"    column="grade"    />
+        <association property="aysAct"    column="act_id" javaType="AysAct" resultMap="AysActResult" />
+        <association property="aysStu"    column="stu_id" javaType="AysStu" resultMap="AysStuResult" />
     </resultMap>
 
+    <resultMap type="AysAct" id="AysActResult">
+        <id property="actId"    column="act_id"    />
+        <result property="orgId"    column="org_id"    />
+        <result property="aname"    column="aname"    />
+        <result property="asubject"    column="asubject"    />
+        <result property="atype"    column="atype"    />
+        <result property="astart"    column="astart"    />
+        <result property="aend"    column="aend"    />
+        <result property="astahour"    column="astahour"    />
+        <result property="aendhour"    column="aendhour"    />
+        <result property="alocation"    column="alocation"    />
+        <result property="aobject"    column="aobject"    />
+        <result property="anum"    column="anum"    />
+        <result property="agradetype"    column="agradetype"    />
+        <result property="ahour"    column="ahour"    />
+        <result property="agrade"    column="agrade"    />
+    </resultMap>
+
+    <resultMap type="AysStu" id="AysStuResult">
+        <id     property="stuId"       column="stu_id"      />
+        <result property="spwd"    column="spwd"    />
+        <result property="stuName"     column="stu_name"    />
+        <result property="deptId"       column="dept_id"      />
+        <result property="sdegree"    column="sdegree"    />
+        <result property="sacademy"    column="sacademy"    />
+        <result property="sclass"    column="sclass"    />
+        <result property="snum"    column="snum"    />
+        <result property="semail"    column="semail"    />
+        <result property="sgender"    column="sgender"    />
+        <result property="sstatus"    column="sstatus"    />
+        <result property="sjob"    column="sjob"    />
+        <result property="srole"    column="srole"    />
+        <result property="sremark"    column="sremark"    />
+        <result property="loginip"    column="loginip"    />
+        <result property="logintime"    column="logintime"    />
+        <result property="delFlag"    column="del_flag"/>
+    </resultMap>
+
+
+<!--    <sql id="selectAysGradeVo">-->
+<!--        select stuId, actId, hour, grade from ays_grade-->
+<!--    </sql>-->
+
     <sql id="selectAysGradeVo">
-        select stuId, actId, hour, grade from ays_grade
+        select g.actId,g.stuId,g.grade,g.hour,
+               s.stu_name,s.dept_id as stu_status,
+               a.act_id, a.org_id, a.aname, a.asubject, a.atype, a.astart, a.aend, a.astahour, a.aendhour, a.alocation, a.aobject, a.anum, a.agradetype, a.ahour, a.agrade, a.del_flag as act_status
+        from ays_grade g
+                 left join ays_stu s on s.stu_id = g.stuId
+                 left join ays_act a on a.act_id = g.actId
     </sql>
 
     <select id="selectAysGradeList" parameterType="AysGrade" resultMap="AysGradeResult">
@@ -71,14 +121,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where stuId = #{stuId}
     </update>
 
-    <delete id="deleteAysGradeById" parameterType="String">
-        delete from ays_grade where stuId = #{stuId}
+    <delete id="deleteAysGradeById" parameterType="AysGrade">
+        delete from ays_grade where stuId = #{stuId} and actId=#{actId}
     </delete>
 
-    <delete id="deleteAysGradeByIds" parameterType="String">
+<!--    <delete id="deleteAysGradeById">-->
+<!--        delete from ays_grade where stuId = #{stuId} and actId=#{actId}-->
+<!--    </delete>-->
+
+    <delete id="deleteAysGradeByIds" parameterType="AysGrade">
         delete from ays_grade where stuId in 
         <foreach item="stuId" collection="array" open="(" separator="," close=")">
             #{stuId}
+        </foreach>
+        and actId in
+        <foreach item="actId" collection="array" open="(" separator="," close=")">
+            #{actId}
         </foreach>
     </delete>
     

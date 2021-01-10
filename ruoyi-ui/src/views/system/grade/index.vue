@@ -19,7 +19,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="记录时长" prop="hour">
+      <!-- <el-form-item label="记录时长" prop="hour">
         <el-input
           v-model="queryParams.hour"
           placeholder="请输入记录时长"
@@ -36,7 +36,7 @@
           size="small"
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -88,9 +88,11 @@
     <el-table v-loading="loading" :data="gradeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="学号" align="center" prop="stuid" />
-      <el-table-column label="活动id" align="center" prop="actid" />
-      <el-table-column label="记录时长" align="center" prop="hour" />
-      <el-table-column label="活动分数" align="center" prop="grade" />
+       <el-table-column label="姓名" align="center" prop="aysStu.stuName" />
+       <el-table-column label="活动号" align="center" prop="actid" />
+      <el-table-column label="活动名称" align="center" prop="aysAct.aname" />
+      <el-table-column label="记录时长" align="center" prop="aysAct.ahour" />
+      <el-table-column label="活动分数" align="center" prop="aysAct.agrade" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -128,12 +130,12 @@
          <el-form-item label="活动号" prop="actid">
           <el-input v-model="form.actid" placeholder="请输入活动号" />
         </el-form-item>
-        <el-form-item label="记录时长" prop="hour">
+        <!-- <el-form-item label="记录时长" prop="hour">
           <el-input v-model="form.hour" placeholder="请输入记录时长" />
         </el-form-item>
         <el-form-item label="活动分数" prop="grade">
           <el-input v-model="form.grade" placeholder="请输入活动分数" />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -145,6 +147,8 @@
 
 <script>
 import { listGrade, getGrade, delGrade, addGrade, updateGrade, exportGrade } from "@/api/system/grade";
+import {listAct,getAct} from "@/api/system/act";
+import {getStu} from "@/api/system/stu";
 
 export default {
   name: "Grade",
@@ -166,11 +170,14 @@ export default {
       total: 0,
       // 学生活动成绩表格数据
       gradeList: [],
+      actList:[],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
       updateFlag:false,
+      stuExist:false,
+      actExist:false,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -180,8 +187,18 @@ export default {
         hour: null,
         grade: null
       },
+      actParams: {
+          pageNum: 1,
+          pageSize: 10,
+          actid:null
+        },
+        delParams:{
+          stuId:null,
+          actId:null
+        },
       // 表单参数
       form: {},
+      data_stu:{},
       // 表单校验
       rules: {
       }
@@ -200,6 +217,28 @@ export default {
         this.total = response.total;
         this.loading = false;
         console.log(this.gradeList);
+        
+        
+//         this.gradeList.filter((item,i) => {
+//     // i 表示第几次循环
+//     // item 表示当前循环中的数据
+    
+//     this.actParams.actid=item.actid;
+//     console.log("参数:"+this.actParams.actid);
+//    listAct(this.actParams, this.dateRange).then(response => {
+//           this.actList = response.rows;
+//           console.log(this.actList);
+//           item.aname=this.actList.aname;
+//           console.log("actName:"+this.actList.aname);
+//           console.log("name: "+item.aname);
+//           this.total = response.total;
+//           this.loading = false;
+          
+//         });
+// })
+// console.log(this.gradeList);
+        
+
       });
     },
     // 取消按钮
@@ -216,6 +255,23 @@ export default {
         grade: null
       };
       this.resetForm("form");
+    },
+    ExistQuery(stuid,actid){
+      
+      getStu(stuid).then(response => {
+       this.data_stu=response.data;
+       
+        console.log("学生撒旦发射点"+this.data_stu);
+      if(this.data_stu!=undefined)
+        this.stuExist=true;
+       
+      });
+
+      getAct(actid).then(response=>{
+         if(response.data!=undefined)
+        this.actExist=true;
+      });
+
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -267,25 +323,54 @@ export default {
               this.updateFlag=false;
             });
           } else {
+            // 验证数据库中是否有此学号
+            this.ExistQuery(this.form.stuid,this.form.actid);
+            if(this.stuExist==true && this.actExist==true){
             addGrade(this.form).then(response => {
               console.log("新增"+this.form);
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
             });
+            }
+            else if(this.stuExist==false && this.actExist==true){
+              this.msgSuccess("该学生不存在，请重新填写学号");
+              this.reset();
+            }
+            else if(this.stuExist==true&&this.actExist==false){
+              this.msgSuccess("该活动不存在，请重新填写活动号");
+              this.reset();
+            }
+            else{
+              this.msgSuccess("该学生与活动都不存在不存在，请重新填写");
+              this.reset();
+            }
           }
         }
       });
     },
     /** 删除按钮操作 */
     handleDelete(row) {
+      // const stuid=row.stuid;
+      // const actid=row.actid;
+      var _this=this;
+      // _this.delParams.stuId=stuid;
+      // _this.delParams.actId=actid;
+      // console.log(_this.delParams);
+      this.reset();
+      const stuid = row.stuid || this.ids
+      getGrade(stuid).then(response => {
+        _this.form = response.data;
+      });
+      console.log("dkfjfkj"+_this.form.stuid);
       const stuids = row.stuid || this.ids;
-      this.$confirm('是否确认删除学生活动成绩编号为"' + stuids + '"的数据项?', "警告", {
+      this.$confirm('是否确认删除学生号为"' + stuids+ '"的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return delGrade(stuids);
+          // console.log(_this.delParams.stuId)
+          return delGrade(_this.form);
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");

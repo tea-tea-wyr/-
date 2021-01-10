@@ -1,5 +1,7 @@
 package com.ruoyi.system.domain;
 
+import com.ruoyi.common.core.domain.entity.AysAct;
+import com.ruoyi.common.core.domain.entity.AysStu;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -28,6 +30,30 @@ public class AysGrade extends BaseEntity
     /** 活动分数 */
     @Excel(name = "活动分数")
     private Long grade;
+
+    private AysAct aysAct;
+
+    public AysAct getAysAct() {
+        return aysAct;
+    }
+
+    public void setAysAct(AysAct aysAct) {
+        this.aysAct = aysAct;
+    }
+
+    public AysStu getAysStu() {
+        return aysStu;
+    }
+
+    public void setAysStu(AysStu aysStu) {
+        this.aysStu = aysStu;
+    }
+
+    private AysStu aysStu;
+
+    public AysGrade() {
+    }
+
 
     public void setStuid(String stuId) 
     {
@@ -73,6 +99,8 @@ public class AysGrade extends BaseEntity
             .append("actId", getActid())
             .append("hour", getHour())
             .append("grade", getGrade())
+            .append("act", getAysAct())
+            .append("stu", getAysStu())
             .toString();
     }
 }

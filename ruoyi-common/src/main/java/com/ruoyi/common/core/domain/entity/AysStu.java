@@ -37,8 +37,6 @@ public class AysStu extends BaseEntity
     @Excel(name = "姓名")
     private String stuName;
 
-
-
     /** 姓名 */
     @Excel(name = "部门")
     private String deptId;
@@ -98,6 +96,17 @@ public class AysStu extends BaseEntity
     public AysStu(){
 
     }
+
+    public AysStu getAysStu() {
+        return aysStu;
+    }
+
+    public void setAysStu(AysStu aysStu) {
+        this.aysStu = aysStu;
+    }
+
+
+
 
     public SysDept getDept() {
         return dept;

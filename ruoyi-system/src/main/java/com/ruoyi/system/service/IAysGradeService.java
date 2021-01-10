@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.AysGrade;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 学生活动成绩Service接口
@@ -49,13 +50,32 @@ public interface IAysGradeService
      * @param stuIds 需要删除的学生活动成绩ID
      * @return 结果
      */
-    public int deleteAysGradeByIds(String[] stuIds);
+//    public int deleteAysGradeByIds(String[] stuIds);
+
+//    /**
+//     * 删除学生活动成绩信息
+//     *
+//     * @param stuId 学生活动成绩ID
+//     * @param actId
+//     * @return 结果
+//     */
+//    public int deleteAysGradeById(@Param("stuId") String stuId, @Param("actId") Long actId);
+//
 
     /**
-     * 删除学生活动成绩信息
-     * 
-     * @param stuId 学生活动成绩ID
+     * 修改学生活动成绩
+     *
+     * @param aysGrade 学生活动成绩
      * @return 结果
      */
-    public int deleteAysGradeById(String stuId);
+    public int deleteAysGradeById(AysGrade aysGrade);
+    /**
+     * 修改学生活动成绩
+     *
+     * @param aysGrades 学生活动成绩
+     * @return 结果
+     */
+    public int deleteAysGradeByIds(AysGrade[] aysGrades);
+
+
 }

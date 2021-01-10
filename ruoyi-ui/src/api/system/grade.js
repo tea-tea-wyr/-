@@ -28,18 +28,23 @@ export function addGrade(data) {
 
 // 修改学生活动成绩
 export function updateGrade(data) {
+ 
   return request({
     url: '/system/grade',
     method: 'put',
     data: data
   })
+ 
 }
 
 // 删除学生活动成绩
-export function delGrade(stuId) {
+export function delGrade(data) {
+  // console.log("shuju: "+data.stuId);
+  // console.log("shuju: "+data.actId);
   return request({
-    url: '/system/grade/' + stuId,
-    method: 'delete'
+    url: '/system/grade',
+    method: 'delete',
+    data:data
   })
 }
 

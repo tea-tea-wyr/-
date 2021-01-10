@@ -80,7 +80,15 @@ public class AysAct extends BaseEntity
     @Excel(name = "分数")
     private Integer agrade;
 
+    public AysAct getAysAct() {
+        return aysAct;
+    }
 
+    public void setAysAct(AysAct aysAct) {
+        this.aysAct = aysAct;
+    }
+
+    private AysAct aysAct;
 
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
