@@ -104,43 +104,6 @@
     </el-row>
     <el-divider />
     <el-row :gutter="20">
-       <el-col :xs="24" :sm="24" :md="12" :lg="8">
-        <el-card class="update-log">
-          <div slot="header" class="clearfix">
-            <span>联系信息</span>
-          </div>
-          <div class="body">
-            <p>
-              <i class="el-icon-s-promotion"></i> 官网：<el-link
-                href="http://www.ruoyi.vip"
-                target="_blank"
-                >http://www.ruoyi.vip</el-link
-              >
-            </p>
-            <p>
-              <i class="el-icon-user-solid"></i> QQ群：<s>满937441</s>
-              <s>满887144332</s> <s>满180251782</s>
-              <a href="https://jq.qq.com/?_wv=1027&k=4WWwqNxN" target="_blank"
-                > 104180207</a
-              >
-            </p>
-            <p>
-              <i class="el-icon-chat-dot-round"></i> 微信：<a
-                href="javascript:;"
-                >/ *若依</a
-              >
-            </p>
-            <p>
-              <i class="el-icon-money"></i> 支付宝：<a
-                href="javascript:;"
-                class="支付宝信息"
-                >/ *若依</a
-              >
-            </p>
-          </div>
-        </el-card>
-      </el-col>
-
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card class="update-log">
           <div slot="header" class="clearfix">
@@ -196,6 +159,61 @@
                 <li>代码生成支持上传控件</li>
               </ol>
             </el-collapse-item>
+            <el-collapse-item title="v3.2.0 - 2020-10-10">
+              <ol>
+                <li>升级springboot版本到2.1.17 提升安全性</li>
+                <li>升级oshi到最新版本v5.2.5</li>
+              </ol>
+            </el-collapse-item>
+
+            <el-collapse-item title="v3.1.0 - 2020-08-13">
+              <ol>
+                <li>表格工具栏右侧添加刷新&显隐查询组件</li>
+                <li>后端支持CORS跨域请求</li>
+                <li>代码生成支持选择上级菜单</li>
+              </ol>
+            </el-collapse-item>
+
+            <el-collapse-item title="v3.0.0 - 2020-07-20">
+              <ol>
+                <li>单应用调整为多模块项目</li>
+                <li>升级element-ui版本到2.13.2</li>
+              </ol>
+            </el-collapse-item>
+
+            <el-collapse-item title="v2.3.0 - 2020-06-01">
+              <ol>
+                <li>升级fastjson到最新版1.2.70 修复高危安全漏洞</li>
+              </ol>
+            </el-collapse-item>
+
+            <el-collapse-item title="v2.2.0 - 2020-03-18">
+              <ol>
+                <li>系统监控新增定时任务功能</li>
+              </ol>
+            </el-collapse-item>
+
+            <el-collapse-item title="v2.1.0 - 2020-02-24">
+              <ol>
+                <li>新增表单构建</li>
+                <li>代码生成支持树表结构</li>
+                <li>新增用户导入</li>
+                <li>修复动态加载路由页面刷新问题</li>
+              </ol>
+            </el-collapse-item>
+
+            <el-collapse-item title="v2.0.0 - 2019-12-02">
+              <ol>
+                <li>新增代码生成</li>
+                <li>新增@RepeatSubmit注解，防止重复提交</li>
+              </ol>
+            </el-collapse-item>
+            <el-collapse-item title="v1.1.0 - 2019-11-11">
+              <ol>
+                <li>新增在线用户管理</li>
+                <li>新增按钮组功能实现（批量删除、导出、清空）</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v1.0.0 - 2019-10-08">
               <ol>
                 <li>若依前后端分离系统正式发布</li>
@@ -221,87 +239,20 @@
           </div>
         </el-card>
       </el-col>
-
-      <el-col :xs="24" :sm="24" :md="12" :lg="8">
-        <el-card class="update-log">
-          <div slot="header" class="clearfix">
-            <span>学生人数</span>
-          </div>
-          <div class="body">
-            <img
-              src="https://oscimg.oschina.net/oscnet/up-d6695f82666e5018f715c41cb7ee60d3b73.png"
-              alt="donate"
-              width="100%"
-            />
-            <span style="display: inline-block; height: 30px; line-height: 30px"
-              >{{version}}</span>
-              <span style="display: inline-block; height: 30px; line-height: 30px">{{stuNumber}}</span>
-              <span style="display: inline-block; height: 30px; line-height: 30px">{{actNumber}}</span>
-              <span style="display: inline-block; height: 30px; line-height: 30px">{{orgNumber}}</span>
-              <span style="display: inline-block; height: 30px; line-height: 30px">{{deptNumber}}</span>
-            
-          </div>
-        </el-card>
-      </el-col>
-
     </el-row>
   </div>
 </template>
 
 <script>
-import {listStu} from "@/api/system/stu";
-import {listAct} from "@/api/system/act";
-import {listOrg} from "@/api/system/org";
-import {listDept} from "@/api/system/dept";
-
 export default {
   name: "index",
   data() {
     return {
       // 版本号
-      version: "",
-      stuNumber:0,
-      actNumber:0,
-      deptNumber:0,
-      orgNumber:0,
-      adminNumber:0,
-      queryParams:{},
+      version: "3.3.0",
     };
   },
-  created(){
-      this.getList();
-  },
   methods: {
-    getList(){
-      console.log("this.getList()");
-      this.loading = true;
-      listStu(this.queryParams).then(response => {
-        this.stuNumber = response.total;
-         this.loading = false;
-        console.log("学生数目是: "+response.total);
-       
-      });
-      this.loading = true;
-      listAct(this.queryParams).then(response => {
-        this.actNumber = response.total;
-        this.loading = false;
-        console.log("活动数目是: "+response.total);
-      });
-      this.loading = true;
-      listOrg(this.queryParams).then(response => {
-        this.orgNumber = response.total;
-        this.loading = false;
-        console.log("组织数目是: "+response.total);
-      });
-      this.loading = true;
-      listDept(this.queryParams).then(response => {
-        this.deptNumber = response.total;
-         this.loading = false;
-         console.log("部门数目是: "+response.total);
-      });
-       
-    },
-
     goTarget(href) {
       window.open(href, "_blank");
     },

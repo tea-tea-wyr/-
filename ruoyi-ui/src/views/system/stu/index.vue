@@ -343,6 +343,7 @@ export default {
       // 角色选项
       roleOptions: [],
       updateFlag: false,
+      
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -418,6 +419,8 @@ export default {
         this.stuList = response.rows;
         this.total = response.total;
         this.loading = false;
+        console.log("total: "+this.total);
+
       });
     },
       /** 查询部门下拉树结构 */
